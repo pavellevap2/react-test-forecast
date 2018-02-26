@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,KAAK;EACH,cAAc,EAAE,QAAQ;EACxB,gBAAgB,EAAE,IAAI;;AAExB,KAAM;EACJ,cAAc,EAAE,QAAQ;EACxB,gBAAgB,EAAE,IAAI",
+"sources": ["StartPage.scss"],
+"names": [],
+"file": "StartPage.css"
+}

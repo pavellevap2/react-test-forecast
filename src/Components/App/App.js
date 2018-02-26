@@ -1,13 +1,14 @@
 import React from "react";
 import {BrowserRouter,Route ,NavLink, Switch} from "react-router-dom";
 import StartPage from "../StartPage/StartPage";
-import Favorites from "../FavoritesPage/FavoritesPage"
+import Favorites from "../FavoritesPage/FavoritesPage";
+import "./App.css";
 
 const Header = () => {
   return(
       <header>
           <ul>
-              <li><NavLink to="/">Поиск</NavLink></li>
+              <li><NavLink exact to="/">Поиск</NavLink></li>
               <li><NavLink to="/favorites">Избранное</NavLink></li>
           </ul>
       </header>

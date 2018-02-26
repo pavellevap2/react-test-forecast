@@ -1,3 +1,36 @@
+body {
+  padding: 0;
+  margin: 0; }
 
+li {
+  list-style: none; }
+
+a {
+  text-decoration: none; }
+
+header {
+  width: 100%;
+  margin-top: -1%;
+  background-color: black; }
+  header ul {
+    padding: 2% 0;
+    display: flex;
+    flex-direction: row;
+    margin-left: 15%; }
+    header ul li {
+      padding: 2%; }
+      header ul li:first-child {
+        margin-right: 5%; }
+      header ul li a {
+        color: white;
+        font-size: 39px;
+        font-weight: bold;
+        padding: _; }
+      header ul li .active {
+        transition: 0.9s;
+        padding-bottom: 4px;
+        color: red;
+        border-bottom: 3px solid red;
+        text-decoration: red; }
 
 /*# sourceMappingURL=App.css.map */

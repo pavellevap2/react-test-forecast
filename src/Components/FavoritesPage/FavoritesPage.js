@@ -8,7 +8,7 @@ class Favorites extends React.Component{
     render(){
         return(
             <div>
-                <h2>tester</h2>
+                <h2>Favorite cities</h2>
             </div>
         )
     }
