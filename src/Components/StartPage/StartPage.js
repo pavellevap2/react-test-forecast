@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 class StartPage extends React.Component{
     constructor(props){
@@ -10,15 +10,15 @@ class StartPage extends React.Component{
     }
 
     getWeather(){
-        let url = "https://www.metaweather.com/api/location/search/?query=london";
+        let url = "https://www.metaweather.com/api/location/44418/";
 
-        fetch(url, {method : "GET"})
+        fetch(url, { mode: "no-cors" })
             .then((response) => {
                 return response.json();
             })
             .then((data) => {
                 this.setState({
-                    cities : data[0] ,
+                    cities : data.consolidated_weather
                 })
             })
             .catch( (error) => {
