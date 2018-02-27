@@ -6,7 +6,7 @@ const API_ROOT_URL = "https://www.metaweather.com/api/location/";
 
 let app = Express();
 
-app.set("port", process.env.PORT || 8084);
+app.set("port", process.env.PORT || 8087);
 
 app.use(Cors());
 

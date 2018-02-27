@@ -37,7 +37,7 @@ class Root extends React.Component{
     }
 
     getCity(){
-        fetch(`http://localhost:8082/weather/${this.state.inputValue}`)
+        fetch(`http://localhost:8088/weather/${this.state.inputValue}`)
             .then((response) => response.json())
             .then((response) => {
                 this.setState({
@@ -48,7 +48,7 @@ class Root extends React.Component{
     }
 
     getWeather(woeid){
-        fetch(`http://localhost:8084/city/${woeid}`)
+        fetch(`http://localhost:8087/city/${woeid}`)
             .then((response) => response.json())
             .then((response) => {
                 this.setState({
@@ -64,6 +64,11 @@ class Root extends React.Component{
         this.setState({
             isFavorite: true,
             favorites: R.append(cities[i], favorites)
+        })
+    }
+    removeFromFavorites(i){
+        this.setState({
+            favorites : R.remove(this.state.favorites[i], this.state.favorites)
         })
     }
 
@@ -105,7 +110,7 @@ class Root extends React.Component{
                                              <Link to={`/city/${i}`}>{favorites[i].title}</Link>
                                          </span>
 
-                                    <button onClick={() => this.addToFavorite(i)}
+                                    <button onClick={() => this.removeFromFavorites(i)}
                                             className="btn-star">
                                         <img className="btn-star-img"
                                              src={isFavorite ? blackStar : redStar} alt="star"/>
