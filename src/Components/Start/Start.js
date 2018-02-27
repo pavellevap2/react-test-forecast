@@ -13,7 +13,7 @@ class StartPage extends React.Component{
     }
 
     getWeather(){
-        fetch(`http://localhost:8080/weather/?query=${this.state.cities}` )
+        fetch(`http://localhost:8080/weather/?query=${this.state.inputValue}` )
             .then((response) => response.json())
             .then((response) => {
                  this.setState({
@@ -35,18 +35,18 @@ class StartPage extends React.Component{
                     <button onClick={() => this.getWeather()}>get</button>
                 </div>
                 <div className="Start-cities">
-                    {/*<ul>*/}
-                        {/*{cities.map((_, i) =>*/}
-                            {/*<li key={i}>*/}
-                                {/*<span>*/}
-                                    {/*<Link to={`/city/${i}`}>{this.state.cities[i].title}</Link>*/}
-                                {/*</span>*/}
-                                {/*<button  className="btn-star" >*/}
-                                    {/*<img className="btn-star-img" src={star} alt="star"/>*/}
-                                {/*</button>*/}
-                            {/*</li>*/}
-                        {/*)}*/}
-                    {/*</ul>*/}
+                    <ul>
+                        {cities.map((_, i) =>
+                            <li key={i}>
+                                <span>
+                                    <Link to={`/city/${i}`}>{this.state.cities[i].title}</Link>
+                                </span>
+                                <button  className="btn-star" >
+                                    <img className="btn-star-img" src={star} alt="star"/>
+                                </button>
+                            </li>
+                        )}
+                    </ul>
                     <button onClick={()=> console.log(cities)}> </button>
                 </div>
             </div>
