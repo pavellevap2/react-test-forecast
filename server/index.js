@@ -2,7 +2,7 @@ let A = require("axios");
 let Cors = require("cors");
 let Express = require("express");
 
-const API_URL = "https://www.metaweather.com/api/location/search/?query=san";
+const API_URL = "https://www.metaweather.com/api/location/";
 
 let app = Express();
 
@@ -11,7 +11,8 @@ app.set("port", process.env.PORT || 8080);
 app.use(Cors());
 
 
-app.get("/weather", (req, res, next) => {
+app.get("/weather/:foo", (req, res, next) => {
+    console.log(req.params.foo);
     A.get(API_URL)
         .then((response) => {
             console.log("GET /weather");
