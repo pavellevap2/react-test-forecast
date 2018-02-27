@@ -1,10 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./Components/App/App";
-import {BrowserRouter,} from "react-router-dom";
+import {BrowserRouter,Route ,NavLink, Switch} from "react-router-dom";
+import Root from "./Components/Root/Root";
 
 ReactDOM.render(
     <BrowserRouter>
-        <App />
+        <Root />
     </BrowserRouter>,
     document.getElementById("root"));

@@ -1,0 +1,27 @@
+@mixin text-props($color,$font-size,$font-weight,$padding){
+  color : $color;
+  font-size: $font-size;
+  font-weight: $font-weight;
+  padding: $padding;
+}
+@mixin position($position,$top,$left){
+  position: $position;
+  top : $top;
+  left: $left;
+}
+.Start{
+  flex-direction: column;
+  .Start-input{
+    margin-top:1.5%;
+    display: flex;
+    justify-content: center;
+      input{
+        width: 50vh;
+        border: none;
+        background-color: white;
+        border-bottom: 1px solid black;
+        @include text-props(black,30px,bold,5px);
+      }
+  }
+
+}
