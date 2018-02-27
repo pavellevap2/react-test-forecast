@@ -5,6 +5,7 @@ let Forecast = (props) => {
         <div className="Forecast">
             <h1 className="Forecast-title">{props.title}</h1>
             {props.makeForecast}
+            {props.max_temp}
         </div>
     )
 };

@@ -1,0 +1,26 @@
+@import "../Start/Start";
+
+.Forecast {
+  margin-top: 2%;
+  .Forecast-title{
+    text-align: center;
+    @include text-props(black,55px,bold,5px);
+    text-shadow: 1px 1px 1px red;
+  }
+  .Forecast-days{
+    display: inline-flex;
+    position: relative;
+    justify-content: flex-start!important;
+    left: 18%;
+    right: 25%;
+    margin: 1%;
+    .Forecast-day{
+      .Forecast-day_weather{
+        padding: 5px 0;
+        &:first-child{
+          @include text-props(red,27px,bold,_);
+        }
+      }
+    }
+  }
+}

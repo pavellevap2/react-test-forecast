@@ -1,16 +1,20 @@
 import React from "react";
 
-class Favorites extends React.Component{
-    constructor(props){
-        super(props);
-
-    }
-    render(){
-        return(
-            <div>
-                <h2>Favorite cities</h2>
+let Favorites = (props) =>{
+    return(
+        <div>
+            <div className="Start">
+                <div className="Start-input">
+                    {/*форма поиска по избранным будет позже*/}
+                    </div>
+                <div className="Start-cities">
+                    <ul>
+                        {props.favorites}
+                    </ul>
+                </div>
             </div>
-        )
-    }
+        </div>
+    )
+
 }
 export default Favorites;

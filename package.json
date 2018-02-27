@@ -6,6 +6,7 @@
     "axios": "^0.18.0",
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "lodash": "^4.17.5",
     "ramda": "^0.25.0",
     "react": "^16.2.0",
     "react-browser-router": "^2.1.0",

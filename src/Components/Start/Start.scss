@@ -10,18 +10,61 @@
   left: $left;
 }
 .Start{
-  flex-direction: column;
+  margin-bottom: 4%;
   .Start-input{
-    margin-top:1.5%;
+    margin-top:2%;
     display: flex;
     justify-content: center;
       input{
-        width: 50vh;
+        width: 55vh;
         border: none;
         background-color: white;
         border-bottom: 1px solid black;
-        @include text-props(black,30px,bold,5px);
+        @include text-props(black,34px,bold,5px);
+        text-transform: capitalize;
+        text-shadow: 1px 1px 1px red;
+      }
+    .Start-btn_search{
+      border: none;
+      background-color: inherit;
+        img{
+          width: 60px;
+          height: 60px;
+        }
+    }
+  }
+  .Start-cities{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+      ul{
+        li{
+          padding: 4% 0;
+          border-bottom:1px solid black;
+          margin-top: 5%;
+          span{
+            a{
+              @include text-props(black,32px,bold,5px);
+            }
+          }
+          button{
+            float: right;
+            position: relative;
+            left: 4.5%;
+            bottom:30%;
+            background-color: inherit;
+            border: none;
+            img{
+              width: 50px;
+              height: 50px;
+            }
+          }
+        }
       }
   }
 
+}
+::-webkit-input-placeholder {
+  color: rgba(black, 0.3);
+  text-shadow: none;
 }

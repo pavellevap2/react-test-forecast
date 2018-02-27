@@ -1,4 +1,5 @@
 @import "../Start/Start";
+@import "../Forecast/Forecast";
 
 body{
   padding: 0;
@@ -15,15 +16,15 @@ a{
 
 header{
   width: 100%;
+  height: 11vh;
   margin-top: -1%;
   background-color: black;
   ul{
-    padding: 2% 0;
+    padding: 2.5vh 0 2vh 0;
     display: flex;
     flex-direction: row;
     margin-left: 15%;
       li{
-        padding: 2%;
         &:first-child{
           margin-right: 5%;
         }
