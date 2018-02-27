@@ -2,7 +2,7 @@ let A = require("axios");
 let Cors = require("cors");
 let Express = require("express");
 
-const API_URL = "https://www.metaweather.com/api/location/";
+const API_ROOT_URL = "https://www.metaweather.com/api/location/";
 
 let app = Express();
 
@@ -11,9 +11,9 @@ app.set("port", process.env.PORT || 8082);
 app.use(Cors());
 
 
-app.get(["/weather", "/weather/:cities"], (req, res, next) => {
-    console.log(req.params.cities);
-    A.get(API_URL)
+app.get("/weather/:city", (req, res, next) => {
+    console.log(req.params.city);
+    A.get(API_ROOT_URL + "search/", {params: {query: req.params.city}})
         .then((response) => {
             console.log("GET /weather");
             res.status(200).send({data: response.data});
