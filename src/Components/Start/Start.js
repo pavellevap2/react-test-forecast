@@ -13,7 +13,7 @@ class StartPage extends React.Component{
     }
 
     getWeather(){
-        fetch("http://localhost:8080/weather/44418")
+        fetch(`http://localhost:8082/weather/${this.state.inputValue}`)
             .then((response) => response.json())
             .then((response) => {
                  this.setState({
