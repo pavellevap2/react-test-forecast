@@ -36,16 +36,16 @@ class StartPage extends React.Component{
                 </div>
                 <div className="Start-cities">
                     <ul>
-                        {/*{cities.map((_, i) =>*/}
-                            {/*<li key={i}>*/}
-                                {/*<span>*/}
-                                    {/*<Link to={`/city/${i}`}>{this.state.cities[i].title}</Link>*/}
-                                {/*</span>*/}
-                                {/*<button  className="btn-star" >*/}
-                                    {/*<img className="btn-star-img" src={star} alt="star"/>*/}
-                                {/*</button>*/}
-                            {/*</li>*/}
-                        {/*)}*/}
+                        {cities.map((_, i) =>
+                            <li key={i}>
+                                <span>
+                                    <Link to={`/city/${i}`}>{this.state.cities[i].title}</Link>
+                                </span>
+                                <button  className="btn-star" >
+                                    <img className="btn-star-img" src={star} alt="star"/>
+                                </button>
+                            </li>
+                        )}
                     </ul>
                     <button onClick={()=> console.log(cities)}> </button>
                 </div>

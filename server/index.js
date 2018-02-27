@@ -11,8 +11,8 @@ app.set("port", process.env.PORT || 8082);
 app.use(Cors());
 
 
-app.get("/weather/:cities", (req, res, next) => {
-    console.log(req.params.foo);
+app.get(["/weather", "/weather/:cities"], (req, res, next) => {
+    console.log(req.params.cities);
     A.get(API_URL)
         .then((response) => {
             console.log("GET /weather");
