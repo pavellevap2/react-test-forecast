@@ -17,7 +17,7 @@ class StartPage extends React.Component{
             .then((response) => response.json())
             .then((response) => {
                  this.setState({
-                     cities: response
+                     cities: response.data
                  })
             }).catch((error) => console.log(error))
     }
