@@ -6,8 +6,7 @@ import redStar from  "../../assets/images/redStar.png";
 import {checkIn} from "../Root/Root";
 
 let Start = (props) => {
-    let cities = props.cities;
-    let favorites = props.favorites;
+    let {cities, favorites} = props;
 
     return(
         <div className="main">
@@ -26,12 +25,11 @@ let Start = (props) => {
                 <ul>
                     {cities.map((_, i) =>
                         <li key={i}>
-                            <span onClick={props.getWeather(cities[i].woeid)}>
-                                <Link to={`/city/${i}`}>{cities[i].title}</Link>
-                                    </span>
+                             <span onClick={()=>props.getWeather(cities[i].woeid)}>
+                                 <Link to={`/city/${i}`}>{cities[i].title}</Link>
+                             </span>
 
-                            <button onClick={props.addToFavorite(i)}
-                                    className="btn-star">
+                            <button onClick={() => props.addToFavorite(i)} className="btn-star">
                                 <img className="btn-star-img"
                                      src={checkIn(favorites, cities[i])?  redStar : blackStar} alt="star"/>
                             </button>

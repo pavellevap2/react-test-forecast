@@ -1,7 +1,12 @@
 import React from "react";
-import search from "../../assets/images/zoom.ico"
+import {Link} from "react-router-dom";
+import search from "../../assets/images/zoom.ico";
+import del from "../../assets/images/delete.png"
+
 
 let Favorites = (props) =>{
+    let {favorites} = props;
+
     return(
         <div>
             <div className="main">
@@ -18,13 +23,23 @@ let Favorites = (props) =>{
                     </div>
                 <div className="cities">
                     <ul>
-                        <li>{}</li>
-                        {props.favorites}
+                        {favorites.map((_, i) =>
+                            <li key={i}>
+                                 <span onClick={() => props.getWeather(favorites[i].woeid)}>
+                                     <Link to={`/city/${i}`}>{favorites[i].title}</Link>
+                                 </span>
+
+                                <button onClick={() => props.removeFavorite(i)}
+                                        className="btn-star">
+                                    <img className="btn-star-img"
+                                         src={del} alt="star"/>
+                                </button>
+                            </li>
+                        )}
                     </ul>
                 </div>
             </div>
         </div>
     )
-
-}
+};
 export default Favorites;

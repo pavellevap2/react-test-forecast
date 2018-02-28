@@ -4,12 +4,8 @@ import Start from "../Start/Start";
 import Favorites from "../Favorites/Favorites";
 import Forecast from "../Forecast/Forecast";
 import "./Root.css";
-import blackStar from "../../assets/images/blackStar.png";
-import redStar from  "../../assets/images/redStar.png";
 import del from "../../assets/images/delete.png"
 import * as R from "ramda";
-
-const URL_ICON = "https://www.metaweather.com/static/img/weather";
 
 let checkIn = (xs, x) => R.indexOf(x, xs) == -1 ? true : false;
 
@@ -83,7 +79,7 @@ class Root extends React.Component{
     }
 
     render(){
-        let {inputValue, cities, cityTitle, location , isFavorite, favorites, inputFavorites ,searchedFavorites} = this.state;
+        let {inputValue, cities, cityTitle, location , favorites, inputFavorites ,searchedFavorites} = this.state;
         let weather= this.state.weather.slice(0, 5);
 
         return(
@@ -94,61 +90,29 @@ class Root extends React.Component{
                         <Start
                             onChange={(e) => this.setState({inputValue: e.target.value})}
                             value={inputValue}
-                            // pressEnter={(e) => e.key == "Enter" ? this.getCity() : false }
+                            pressEnter={(e) => e.key == "Enter" ? this.getCity() : false }
                             search={() => this.getCity()}
-
                             getWeather={(i) => this.getWeather(i)}
-                            addToFavorite=y{(i) => this.addToFavorite(i)}
+                            addToFavorite={(i) => this.addToFavorite(i)}
                             cities={cities}
                             favorites={favorites}
-
-                            />
+                        />
                     )}/>
 
-                    <Route path ="/favorites" render={() =>
+                    <Route path ="/favorites" render={() => (
                         <Favorites
                             onChange={(e) => this.setState({inputFavorites: e.target.value})}
                             value={inputFavorites}
-                            pressEnter={(e) => e.key == "Enter" ? this.searchFavorites() : false }
-                            search={() => this.searchFavorites()}
-
-                            favorites={favorites.map((_, i) =>
-                                    <li key={i}>
-                                            <span onClick={() => this.getWeather(favorites[i].woeid)}>
-                                                 <Link to={`/city/${i}`}>{favorites[i].title}</Link>
-                                             </span>
-
-                                        <button onClick={() => this.removeFavorite(i)}
-                                                className="btn-star">
-                                            <img className="btn-star-img"
-                                                 src={del} alt="star"/>
-                                        </button>
-                                    </li>
-                            )}/>
-                    }/>
+                            favorites={favorites}
+                            getWeather={(i) => this.getWeather(i)}
+                            removeFavorite={(i) => this.removeFavorite(i)}
+                        />
+                    )}/>
 
                     <Route path={"/city/:id" } render={()=>
                        <Forecast
                            title={cityTitle + " " + location}
-                           makeForecast={weather.map((_, i) =>
-                               <div className="Forecast-days">
-                                   <ul className="Forecast-day" key={i}>
-                                       <li className="Forecast-day_weather">
-                                           {i == 0 ? "Today" : i == 1 ? "Tomorrow" : weather[i].applicable_date}
-                                       </li>
-                                       <li className="Forecast-day_weather">
-                                           <img src={`${URL_ICON}/png/64/${weather[i].weather_state_abbr}.png`}
-                                                alt="icon"/>
-                                       </li>
-                                       <li className="Forecast-day_weather">{weather[i].weather_state_name}</li>
-                                       <li className="Forecast-day_weather">Max: {Math.round(weather[i].max_temp)} °C</li>
-                                       <li className="Forecast-day_weather">Min: {Math.round(weather[i].min_temp)} °C</li>
-                                       <li className="Forecast-day_weather">
-                                           Wind direction: {weather[i].wind_direction_compass}
-                                       </li>
-                                   </ul>
-                               </div>
-                           )}
+                           weather={weather}
                        />
                     }/>
 
