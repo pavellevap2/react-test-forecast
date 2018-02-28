@@ -31,7 +31,6 @@ class Root extends React.Component{
             cities : [],
             weather: [],
             favorites : [],
-            searchedFavorites : [],
             location: "",
             cityTitle: ""
         }
@@ -60,18 +59,22 @@ class Root extends React.Component{
             }).catch((error) => console.log(error))
     }
 
-    addToFavorites(i){
+    addToFavorites(uniqueCityIdentifier){
         let {favorites, cities} = this.state;
 
-        if(checkIn(favorites, cities[i])) {
+        if(checkIn(favorites, cities[uniqueCityIdentifier])) {
             this.setState({
-                favorites: R.append(cities[i], favorites)
+                favorites: R.append(cities[uniqueCityIdentifier], favorites)
             })
         }
     }
+    removeFromFavorites(i){
+        return R.remove(this.state.favorites[i] , this.state.favorites)
+
+    }
 
     render(){
-        let {inputValue, cities, cityTitle, location , favorites, inputFavorites ,searchedFavorites} = this.state;
+        let {inputValue, cities, cityTitle, location , favorites, inputFavorites} = this.state;
         let weather= this.state.weather.slice(0, 5);
 
         return(
@@ -87,8 +90,7 @@ class Root extends React.Component{
                             getWeather={(i) => this.getWeather(i)}
                             addToFavorites={(i) => this.addToFavorites(i)}
                             cities={cities}
-                            favorites={favorites}
-                        />
+                            favorites={favorites}/>
                     )}/>
 
                     <Route path ="/favorites" render={() => (
@@ -97,15 +99,13 @@ class Root extends React.Component{
                             value={inputFavorites}
                             favorites={favorites}
                             getWeather={(i) => this.getWeather(i)}
-                            removeFavorite={(i) => this.removeFavorite(i)}
-                        />
+                            removeFromFavorites={(i) => this.setState({favorites : this.removeFromFavorites(i)})}/>
                     )}/>
 
                     <Route path={"/city/:id" } render={()=>
                        <Forecast
                            title={cityTitle + " " + location}
-                           weather={weather}
-                       />
+                           weather={weather}/>
                     }/>
 
                 </Switch>

@@ -29,7 +29,7 @@ let Favorites = (props) =>{
                                      <Link to={`/city/${i}`}>{favorites[i].title}</Link>
                                  </span>
 
-                                <button onClick={() => props.removeFavorite(i)}
+                                <button onClick={() => props.removeFromFavorites(i)}
                                         className="btn-star">
                                     <img className="btn-star-img"
                                          src={del} alt="star"/>
