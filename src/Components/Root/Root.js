@@ -4,7 +4,6 @@ import Start from "../Start/Start";
 import Favorites from "../Favorites/Favorites";
 import Forecast from "../Forecast/Forecast";
 import "./Root.css";
-import del from "../../assets/images/delete.png"
 import * as R from "ramda";
 
 let checkIn = (xs, x) => R.indexOf(x, xs) == -1 ? true : false;
@@ -30,7 +29,7 @@ class Root extends React.Component{
             isFavorite: false,
             cities : [],
             weather: [],
-            favorites : [],
+            favorites : {},
             location: "",
             cityTitle: ""
         }
@@ -47,8 +46,8 @@ class Root extends React.Component{
             .catch((error) => console.log(error))
     }
 
-    getWeather(woeid){
-        fetch(`http://localhost:8089/city/${woeid}`)
+    getWeather(cityWoeid){
+        fetch(`http://localhost:8089/city/${cityWoeid}`)
             .then((response) => response.json())
             .then((response) => {
                 this.setState({
@@ -59,18 +58,20 @@ class Root extends React.Component{
             }).catch((error) => console.log(error))
     }
 
-    addToFavorites(uniqueCityIdentifier){
-        let {favorites, cities} = this.state;
+    addToFavorites(cityName) {
+        let {cities, favorites} = this.state;
 
-        if(checkIn(favorites, cities[uniqueCityIdentifier])) {
-            this.setState({
-                favorites: R.append(cities[uniqueCityIdentifier], favorites)
-            })
-        }
+        this.setState({
+            favorites: R.assoc(cities[cityName].title, cities[cityName].woeid, favorites)
+        })
     }
-    removeFromFavorites(i){
-        return R.remove(this.state.favorites[i] , this.state.favorites)
 
+    removeFromFavorites(cityName) {
+        let {favorites} = this.state;
+
+        this.setState({
+            favorites: R.dissoc((R.keys(favorites)[cityName]), favorites)
+        })
     }
 
     render(){
@@ -87,7 +88,7 @@ class Root extends React.Component{
                             value={inputValue}
                             pressEnter={(e) => e.key == "Enter" ? this.getCity() : false }
                             search={() => this.getCity()}
-                            getWeather={(i) => this.getWeather(i)}
+                            getWeather={(woeid) => this.getWeather(woeid)}
                             addToFavorites={(i) => this.addToFavorites(i)}
                             cities={cities}
                             favorites={favorites}/>
@@ -99,7 +100,7 @@ class Root extends React.Component{
                             value={inputFavorites}
                             favorites={favorites}
                             getWeather={(i) => this.getWeather(i)}
-                            removeFromFavorites={(i) => this.setState({favorites : this.removeFromFavorites(i)})}/>
+                            removeFromFavorites={(i) => this.removeFromFavorites(i)}/>
                     )}/>
 
                     <Route path={"/city/:id" } render={()=>
@@ -107,7 +108,6 @@ class Root extends React.Component{
                            title={cityTitle + " " + location}
                            weather={weather}/>
                     }/>
-
                 </Switch>
             </div>
         )

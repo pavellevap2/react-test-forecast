@@ -40,5 +40,5 @@ app.get("/city/:weather", (req, res, next) => {
 });
 
 app.listen(app.get("port"), () => {
-    console.log(`Listening on port ${app.get("port")}, pid ${process.pid}`)
+    console.log(`Listening on port ${app.get("port")}, pid ${process.pid}`);
 });

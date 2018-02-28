@@ -1,11 +1,14 @@
 import React from "react";
 import {Link} from "react-router-dom";
 import search from "../../assets/images/zoom.ico";
-import del from "../../assets/images/delete.png"
+import del from "../../assets/images/delete.png";
+import * as R from "ramda";
 
 
 let Favorites = (props) =>{
     let {favorites} = props;
+    let favoritesWoeid = R.values(favorites);
+    let favoritesTitles = R.keys(favorites);
 
     return(
         <div>
@@ -23,10 +26,10 @@ let Favorites = (props) =>{
                     </div>
                 <div className="cities">
                     <ul>
-                        {favorites.map((_, i) =>
+                        {favoritesWoeid.map((_, i) =>
                             <li key={i}>
-                                 <span onClick={() => props.getWeather(favorites[i].woeid)}>
-                                     <Link to={`/city/${i}`}>{favorites[i].title}</Link>
+                                 <span onClick={() => props.getWeather(favoritesWoeid[i])}>
+                                     <Link to={`/city/${i}`}>{favoritesTitles[i]}</Link>
                                  </span>
 
                                 <button onClick={() => props.removeFromFavorites(i)}

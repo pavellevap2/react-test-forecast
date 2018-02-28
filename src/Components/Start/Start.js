@@ -4,9 +4,11 @@ import search from "../../assets/images/zoom.ico";
 import blackStar from "../../assets/images/blackStar.png";
 import redStar from  "../../assets/images/redStar.png";
 import {checkIn} from "../Root/Root";
+import * as R from "ramda";
 
 let Start = (props) => {
     let {cities, favorites} = props;
+    let favoritesTitles = R.keys(favorites);
 
     return(
         <div className="main">
@@ -31,7 +33,7 @@ let Start = (props) => {
 
                             <button onClick={() => props.addToFavorites(i)} className="btn-star">
                                 <img className="btn-star-img"
-                                     src={checkIn(favorites, cities[i])?  redStar : blackStar} alt="star"/>
+                                     src={checkIn(favoritesTitles, cities[i].title)?  redStar : blackStar} alt="star"/>
                             </button>
                         </li>
                     )}
