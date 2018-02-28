@@ -3,19 +3,19 @@ import search from "../../assets/images/zoom.ico"
 
 let StartPage = (props) => {
     return(
-        <div className="Start">
-            <div className="Start-input">
+        <div className="main">
+            <div className="main-input">
                 <input type="text"
                        placeholder="Enter a сity "
                        onChange={props.onChange}
                        value={props.value}
                        onKeyPress={props.pressEnter}
                 />
-                <button className="Start-btn_search" onClick={props.search}>
+                <button className="btn_search" onClick={props.search}>
                     <img src={search} alt="search"/>
                 </button>
             </div>
-            <div className="Start-cities">
+            <div className="cities">
                 <ul>
                     {props.cities}
                 </ul>

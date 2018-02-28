@@ -9,9 +9,9 @@
   top : $top;
   left: $left;
 }
-.Start{
+.main{
   margin-bottom: 4%;
-  .Start-input{
+  .main-input{
     margin-top:2%;
     display: flex;
     justify-content: center;
@@ -24,7 +24,7 @@
         text-transform: capitalize;
         text-shadow: 1px 1px 1px red;
       }
-    .Start-btn_search{
+    .btn_search{
       border: none;
       background-color: inherit;
         img{
@@ -33,7 +33,7 @@
         }
     }
   }
-  .Start-cities{
+  .cities{
     display: flex;
     flex-direction: row;
     justify-content: space-around;

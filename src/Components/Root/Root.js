@@ -10,6 +10,8 @@ import * as R from "ramda";
 
 const URL_ICON = "https://www.metaweather.com/static/img/weather";
 
+let checkIn = (xs, x) => R.indexOf(x, xs) == -1 ? true : false;
+
 const Header = () => {
   return(
       <header>
@@ -27,10 +29,12 @@ class Root extends React.Component{
         super(props);
         this.state = {
             inputValue: "",
+            inputFavorites :"",
             isFavorite: false,
             cities : [],
             weather: [],
             favorites : [],
+            searchedFavorites : [],
             location: "",
             cityTitle: ""
         }
@@ -58,22 +62,28 @@ class Root extends React.Component{
                 })
             }).catch((error) => console.log(error))
     }
+
     addToFavorite(i){
         let {favorites, cities} = this.state;
 
-        this.setState({
-            isFavorite: true,
-            favorites: R.append(cities[i], favorites)
-        })
+        if(checkIn(favorites, cities[i])) {
+            this.setState({
+                favorites: R.append(cities[i], favorites)
+            })
+        }
+
     }
-    removeFromFavorites(i){
+
+    searchFavorites(){
+        let inputLength = this.state.inputFavorites.length;
+
         this.setState({
-            favorites : R.remove(this.state.favorites[i], this.state.favorites)
+            searchedFavorites : R.find(R.propEq(this.state.inputFavorites))(this.state.favorites)
         })
     }
 
     render(){
-        let {cities, cityTitle, location , isFavorite, favorites} = this.state;
+        let {inputValue, cities, cityTitle, location , isFavorite, favorites, inputFavorites ,searchedFavorites} = this.state;
         let weather= this.state.weather.slice(0, 5);
 
         return(
@@ -83,7 +93,7 @@ class Root extends React.Component{
                     <Route exact path="/" render={()=>(
                         <Start
                             onChange={(e) => this.setState({inputValue: e.target.value})}
-                            value={this.state.inputValue}
+                            value={inputValue}
                             pressEnter={(e) => e.key == "Enter" ? this.getCity() : false }
                             search={() => this.getCity()}
 
@@ -96,7 +106,7 @@ class Root extends React.Component{
                                         <button onClick={() => this.addToFavorite(i)}
                                                 className="btn-star">
                                             <img className="btn-star-img"
-                                                 src={isFavorite ?  blackStar : redStar} alt="star"/>
+                                                 src={checkIn(favorites, cities[i])?  redStar : blackStar} alt="star"/>
                                         </button>
                                     </li>
                             )}/>
@@ -104,18 +114,23 @@ class Root extends React.Component{
 
                     <Route path ="/favorites" render={() =>
                         <Favorites
-                            favorites={favorites.map((_, i) =>
-                                <li key={i}>
-                                        <span onClick={() => this.getWeather(favorites[i].woeid)}>
-                                             <Link to={`/city/${i}`}>{favorites[i].title}</Link>
-                                         </span>
+                            onChange={(e) => this.setState({inputFavorites: e.target.value})}
+                            value={inputFavorites}
+                            pressEnter={(e) => e.key == "Enter" ? this.searchFavorites() : false }
+                            search={() => this.searchFavorites()}
 
-                                    <button onClick={() => this.removeFromFavorites(i)}
-                                            className="btn-star">
-                                        <img className="btn-star-img"
-                                             src={isFavorite ? blackStar : redStar} alt="star"/>
-                                    </button>
-                                </li>
+                            favorites={favorites.map((_, i) =>
+                                    <li key={i}>
+                                            <span onClick={() => this.getWeather(favorites[i].woeid)}>
+                                                 <Link to={`/city/${i}`}>{favorites[i].title}</Link>
+                                             </span>
+
+                                        <button onClick={() => this.removeFromFavorites(i)}
+                                                className="btn-star">
+                                            <img className="btn-star-img"
+                                                 src={isFavorite ? blackStar : redStar} alt="star"/>
+                                        </button>
+                                    </li>
                             )}/>
                     }/>
 
