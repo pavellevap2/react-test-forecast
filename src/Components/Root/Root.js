@@ -6,6 +6,7 @@ import Forecast from "../Forecast/Forecast";
 import "./Root.css";
 import blackStar from "../../assets/images/blackStar.png";
 import redStar from  "../../assets/images/redStar.png";
+import del from "../../assets/images/delete.png"
 import * as R from "ramda";
 
 const URL_ICON = "https://www.metaweather.com/static/img/weather";
@@ -41,7 +42,7 @@ class Root extends React.Component{
     }
 
     getCity(){
-        fetch(`http://localhost:8088/weather/${this.state.inputValue}`)
+        fetch(`http://localhost:8089/weather/${this.state.inputValue}`)
             .then((response) => response.json())
             .then((response) => {
                 this.setState({
@@ -52,7 +53,7 @@ class Root extends React.Component{
     }
 
     getWeather(woeid){
-        fetch(`http://localhost:8087/city/${woeid}`)
+        fetch(`http://localhost:8089/city/${woeid}`)
             .then((response) => response.json())
             .then((response) => {
                 this.setState({
@@ -73,12 +74,11 @@ class Root extends React.Component{
         }
 
     }
-
-    searchFavorites(){
-        let inputLength = this.state.inputFavorites.length;
+    removeFavorite(i){
+        let {favorites} = this.state;
 
         this.setState({
-            searchedFavorites : R.find(R.propEq(this.state.inputFavorites))(this.state.favorites)
+            favorites : R.remove(favorites[i], favorites)
         })
     }
 
@@ -94,22 +94,15 @@ class Root extends React.Component{
                         <Start
                             onChange={(e) => this.setState({inputValue: e.target.value})}
                             value={inputValue}
-                            pressEnter={(e) => e.key == "Enter" ? this.getCity() : false }
+                            // pressEnter={(e) => e.key == "Enter" ? this.getCity() : false }
                             search={() => this.getCity()}
 
-                            cities={cities.map((_, i) =>
-                                    <li key={i}>
-                                        <span onClick={() => this.getWeather(cities[i].woeid)}>
-                                             <Link to={`/city/${i}`}>{cities[i].title}</Link>
-                                         </span>
+                            getWeather={(i) => this.getWeather(i)}
+                            addToFavorite=y{(i) => this.addToFavorite(i)}
+                            cities={cities}
+                            favorites={favorites}
 
-                                        <button onClick={() => this.addToFavorite(i)}
-                                                className="btn-star">
-                                            <img className="btn-star-img"
-                                                 src={checkIn(favorites, cities[i])?  redStar : blackStar} alt="star"/>
-                                        </button>
-                                    </li>
-                            )}/>
+                            />
                     )}/>
 
                     <Route path ="/favorites" render={() =>
@@ -125,10 +118,10 @@ class Root extends React.Component{
                                                  <Link to={`/city/${i}`}>{favorites[i].title}</Link>
                                              </span>
 
-                                        <button onClick={() => this.removeFromFavorites(i)}
+                                        <button onClick={() => this.removeFavorite(i)}
                                                 className="btn-star">
                                             <img className="btn-star-img"
-                                                 src={isFavorite ? blackStar : redStar} alt="star"/>
+                                                 src={del} alt="star"/>
                                         </button>
                                     </li>
                             )}/>
@@ -164,4 +157,4 @@ class Root extends React.Component{
         )
     }
 }
-export default Root;
+export {Root, checkIn};

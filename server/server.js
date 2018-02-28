@@ -6,7 +6,7 @@ const API_ROOT_URL = "https://www.metaweather.com/api/location/";
 
 let app = Express();
 
-app.set("port", process.env.PORT || 8088);
+app.set("port", process.env.PORT || 8089);
 
 app.use(Cors());
 
@@ -16,6 +16,20 @@ app.get("/weather/:city", (req, res, next) => {
     A.get(API_ROOT_URL + "search/", {params: {query: req.params.city}})
         .then((response) => {
             console.log("GET /city");
+            res.status(200).send({data: response.data});
+        })
+        .catch((error) => {
+            console.warn(error);
+            res.status(200).send({error: error.message});
+        })
+        .then(next);
+});
+
+app.get("/city/:weather", (req, res, next) => {
+    console.log(req.params.weather);
+    A.get(API_ROOT_URL + req.params.weather)
+        .then((response) => {
+            console.log("GET /weather");
             res.status(200).send({data: response.data});
         })
         .catch((error) => {
