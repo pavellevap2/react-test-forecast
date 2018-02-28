@@ -60,7 +60,7 @@ class Root extends React.Component{
             }).catch((error) => console.log(error))
     }
 
-    addToFavorite(i){
+    addToFavorites(i){
         let {favorites, cities} = this.state;
 
         if(checkIn(favorites, cities[i])) {
@@ -68,14 +68,6 @@ class Root extends React.Component{
                 favorites: R.append(cities[i], favorites)
             })
         }
-
-    }
-    removeFavorite(i){
-        let {favorites} = this.state;
-
-        this.setState({
-            favorites : R.remove(favorites[i], favorites)
-        })
     }
 
     render(){
@@ -93,7 +85,7 @@ class Root extends React.Component{
                             pressEnter={(e) => e.key == "Enter" ? this.getCity() : false }
                             search={() => this.getCity()}
                             getWeather={(i) => this.getWeather(i)}
-                            addToFavorite={(i) => this.addToFavorite(i)}
+                            addToFavorites={(i) => this.addToFavorites(i)}
                             cities={cities}
                             favorites={favorites}
                         />

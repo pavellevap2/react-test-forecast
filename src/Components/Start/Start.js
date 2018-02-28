@@ -29,7 +29,7 @@ let Start = (props) => {
                                  <Link to={`/city/${i}`}>{cities[i].title}</Link>
                              </span>
 
-                            <button onClick={() => props.addToFavorite(i)} className="btn-star">
+                            <button onClick={() => props.addToFavorites(i)} className="btn-star">
                                 <img className="btn-star-img"
                                      src={checkIn(favorites, cities[i])?  redStar : blackStar} alt="star"/>
                             </button>
