@@ -15,11 +15,11 @@ class Start extends React.Component{
     }
 
     handleSearch = (event) => {
-        let searchQuery = event.target.value;
+        let searchValue = event.target.value;
 
         this.setState({
             searchValue: event.target.value
-        }, () => this.props.passingProps(searchQuery))
+        }, () => this.props.passingSearchValue(searchValue))
     };
 
     render(){

@@ -32,7 +32,7 @@ class Root extends React.Component{
         }
     }
 
-    getSearchQuery = (searchValue) => {
+    getSearchValue = (searchValue) => {
         this.setState({
             searchQuery : searchValue
         })
@@ -81,7 +81,7 @@ class Root extends React.Component{
 
     render(){
         let {cities, location, favorites} = this.state;
-        let weather= this.state.weather.slice(0, 5);
+        let weather = this.state.weather.slice(0, 5);
 
         return(
             <div>
@@ -89,7 +89,7 @@ class Root extends React.Component{
                 <Switch>
                     <Route exact path="/" render={()=>(
                         <Start
-                            passingProps = {this.getSearchQuery}
+                            passingSearchValue = {this.getSearchValue}
                             search={() => this.fetchCity()}
                             getWeather={(woeid) => this.getWeather(woeid)}
                             addToFavorites={(id) => this.addToFavorites(id)}

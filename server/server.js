@@ -12,7 +12,6 @@ app.use(Cors());
 
 
 app.get("/weather/:city", (req, res, next) => {
-    console.log(req.params.city);
     A.get(API_ROOT_URL + "search/", {params: {query: req.params.city}})
         .then((response) => {
             res.status(200).send({data: response.data});
@@ -25,7 +24,6 @@ app.get("/weather/:city", (req, res, next) => {
 });
 
 app.get("/city/:weather", (req, res, next) => {
-    console.log(req.params.weather);
     A.get(API_ROOT_URL + req.params.weather)
         .then((response) => {
             res.status(200).send({data: response.data});
