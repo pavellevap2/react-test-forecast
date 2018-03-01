@@ -46,18 +46,20 @@ class Root extends React.Component{
                     cities: response.data,
                 })
             })
-            .catch((error) => console.log(error))
+            .catch((error) => alert("Ошибка :" + error))
     }
 
-    getWeather(cityWoeid){
-        fetch(`http://localhost:8089/city/${cityWoeid}`)
+    getWeather(woeid){
+        fetch(`http://localhost:8089/city/${woeid}`)
             .then((response) => response.json())
             .then((response) => {
                 this.setState({
                     weather: response.data.consolidated_weather,
                     location : response.data.title +" " + response.data.parent.title
                 })
-            }).catch((error) => console.log(error))
+            })
+            .catch((error) => alert("Ошибка :" + error))
+
     }
 
     addToFavorites(id) {
@@ -70,9 +72,10 @@ class Root extends React.Component{
 
     removeFromFavorites(id) {
         let {favorites} = this.state;
+        let favoritesId = R.keys(favorites);
 
         this.setState({
-            favorites: R.dissoc((R.keys(favorites)[id]), favorites)
+            favorites: R.dissoc(favoritesId[id], favorites)
         })
     }
 
