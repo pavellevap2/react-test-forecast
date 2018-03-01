@@ -14,7 +14,7 @@ let Forecast = (props) => {
                             {i == 0 ? "Today" : i == 1 ? "Tomorrow" : weather[i].applicable_date}
                         </li>
                         <li className="Forecast-day_weather">
-                            <img src={`${URL_ICON}/png/64/${weather[i].weather_state_abbr}.png`}
+                            <img src={`${URL_ICON}/png/${weather[i].weather_state_abbr}.png`}
                                  alt="icon"/>
                         </li>
                         <li className="Forecast-day_weather">{weather[i].weather_state_name}</li>

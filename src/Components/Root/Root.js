@@ -24,19 +24,22 @@ class Root extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            inputValue: "",
-            inputFavorites :"",
-            isFavorite: false,
+            searchQuery: "",
             cities : [],
             weather: [],
             favorites : {},
             location: "",
-            cityTitle: ""
         }
     }
 
-    getCity(){
-        fetch(`http://localhost:8089/weather/${this.state.inputValue}`)
+    getSearchQuery = (searchValue) => {
+        this.setState({
+            searchQuery : searchValue
+        })
+    };
+
+    fetchCity(){
+        fetch(`http://localhost:8089/weather/${this.state.searchQuery}`)
             .then((response) => response.json())
             .then((response) => {
                 this.setState({
@@ -52,30 +55,29 @@ class Root extends React.Component{
             .then((response) => {
                 this.setState({
                     weather: response.data.consolidated_weather,
-                    cityTitle : response.data.title,
-                    location : response.data.parent.title
+                    location : response.data.title +" " + response.data.parent.title
                 })
             }).catch((error) => console.log(error))
     }
 
-    addToFavorites(cityName) {
+    addToFavorites(id) {
         let {cities, favorites} = this.state;
 
         this.setState({
-            favorites: R.assoc(cities[cityName].title, cities[cityName].woeid, favorites)
+            favorites: R.assoc(cities[id].title, cities[id].woeid, favorites)
         })
     }
 
-    removeFromFavorites(cityName) {
+    removeFromFavorites(id) {
         let {favorites} = this.state;
 
         this.setState({
-            favorites: R.dissoc((R.keys(favorites)[cityName]), favorites)
+            favorites: R.dissoc((R.keys(favorites)[id]), favorites)
         })
     }
 
     render(){
-        let {inputValue, cities, cityTitle, location , favorites, inputFavorites} = this.state;
+        let {cities, location, favorites} = this.state;
         let weather= this.state.weather.slice(0, 5);
 
         return(
@@ -84,28 +86,24 @@ class Root extends React.Component{
                 <Switch>
                     <Route exact path="/" render={()=>(
                         <Start
-                            onChange={(e) => this.setState({inputValue: e.target.value})}
-                            value={inputValue}
-                            pressEnter={(e) => e.key == "Enter" ? this.getCity() : false }
-                            search={() => this.getCity()}
+                            passingProps = {this.getSearchQuery}
+                            search={() => this.fetchCity()}
                             getWeather={(woeid) => this.getWeather(woeid)}
-                            addToFavorites={(i) => this.addToFavorites(i)}
+                            addToFavorites={(id) => this.addToFavorites(id)}
                             cities={cities}
                             favorites={favorites}/>
                     )}/>
 
                     <Route path ="/favorites" render={() => (
                         <Favorites
-                            onChange={(e) => this.setState({inputFavorites: e.target.value})}
-                            value={inputFavorites}
                             favorites={favorites}
                             getWeather={(i) => this.getWeather(i)}
-                            removeFromFavorites={(i) => this.removeFromFavorites(i)}/>
+                            removeFromFavorites={(id) => this.removeFromFavorites(id)}/>
                     )}/>
 
                     <Route path={"/city/:id" } render={()=>
                        <Forecast
-                           title={cityTitle + " " + location}
+                           title={location}
                            weather={weather}/>
                     }/>
                 </Switch>

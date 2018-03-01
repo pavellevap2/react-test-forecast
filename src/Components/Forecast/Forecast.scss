@@ -11,14 +11,20 @@
     display: inline-flex;
     position: relative;
     justify-content: flex-start!important;
-    left: 18%;
+    flex-wrap: wrap;
+    left: 5%;
     right: 25%;
     margin: 1%;
     .Forecast-day{
+      white-space: pre-wrap;
       .Forecast-day_weather{
         padding: 5px 0;
         &:first-child{
           @include text-props(red,27px,bold,_);
+        }
+        img{
+          width: 5vh;
+          height: 5vh;
         }
       }
     }

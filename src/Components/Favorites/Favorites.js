@@ -15,12 +15,11 @@ let Favorites = (props) =>{
             <div className="main">
                 <div className="main-input">
                     <input type="text"
-                           placeholder="Enter a сity"
-                           onChange={props.onChange}
-                           value={props.value}
-                           onKeyPress={props.pressEnter}
-                    />
-                    <button className="btn_search" onClick={props.search}>
+                           disabled={true}
+                           placeholder="doesn't work"/>
+                    <button className="btn_search"
+                            disabled={true}
+                            onClick={props.search}>
                         <img src={search} alt="search"/>
                     </button>
                     </div>
