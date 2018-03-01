@@ -1,14 +1,14 @@
 ### Start Server
-node server/server.js
-
+**node server/server.js**
+***
 ### Another Scripts
-npm start
-
-npm test
-
-npm run build
-
-npm run eject
+**npm start**
+***
+**npm test**
+***
+**npm run build**
+***
+**npm run eject**
 
 
 ## Тестовое задание 
