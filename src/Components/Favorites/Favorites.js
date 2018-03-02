@@ -13,9 +13,8 @@ class Favorites extends React.Component{
         }
     }
     render(){
-        let {favorites} = this.props;
-        let favoritesWoeid = R.values(favorites);
-        let favoritesTitles = R.keys(favorites);
+        let {favorites,cities} = this.props;
+        let favoritesWoeid = R.keys(favorites);
 
         return(
             <div>
@@ -34,10 +33,10 @@ class Favorites extends React.Component{
                     </div>
                     <div className="cities">
                         <ul>
-                            {favoritesWoeid.map((_, i) =>
+                            {favoritesWoeid.map((x, i) =>
                                 <li key={i}>
                                  <span onClick={() => this.props.getWeather(favoritesWoeid[i])}>
-                                     <Link to={`/city/${i}`}>{favoritesTitles[i]}</Link>
+                                     <Link to={`/city/${i}`}>{cities[x]}</Link>
                                  </span>
 
                                     <button onClick={() => this.props.removeFromFavorites(i)}

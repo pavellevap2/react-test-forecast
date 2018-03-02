@@ -23,39 +23,42 @@ class Start extends React.Component{
     };
 
     render(){
-        let {favorites, cities} = this.props;
-        let favoritesTitles = R.keys(favorites);
+        let cities = R.values(this.props.cities);
+        let citiesId = R.keys(this.props.cities);
+        let favorites = R.keys(this.props.favorites);
 
         return(
-                <div className="main">
-                    <div className="main-input">
-                        <input type="text"
-                               placeholder="Enter a сity"
-                               onChange={(event) => this.handleSearch(event)}
-                               value={this.state.searchValue}
-                        />
-                        <button className="btn_search" onClick={this.props.search}>
-                            <img src={search} alt="search"/>
-                        </button>
-                    </div>
-                    <div className="cities">
-                        <ul>
-                            {cities.map((_, i) =>
-                                <li key={i}>
-                                     <span onClick={()=>this.props.getWeather(cities[i].woeid)}>
-                                         <Link to={`/city/${i}`}>{cities[i].title}</Link>
+            <div className="main">
+                <div className="main-input">
+                    <input type="text"
+                           placeholder="Enter a сity"
+                           onChange={(event) => this.handleSearch(event)}
+                           value={this.state.searchValue}/>
+
+                    <button className="btn_search" onClick={this.props.search}>
+                        <img src={search} alt="search"/>
+                    </button>
+                </div>
+                <div className="cities">
+                    <ul>
+                        {cities.map((x, i) =>
+                            <li key={i}>
+                                     <span onClick={()=>this.props.getWeather(citiesId[i])}>
+                                         <Link to={`/city/${i}`}>{cities[i]}</Link>
                                      </span>
 
-                                    <button onClick={() => this.props.addToFavorites(i)} className="btn-star">
-                                        <img className="btn-star-img"
-                                             src={checkIn(favoritesTitles, cities[i].title)?  redStar : blackStar} alt="star"/>
-                                    </button>
-                                </li>
-                            )}
-                        </ul>
-                    </div>
+                                <button onClick={() => this.props.addToFavorites(citiesId[i])} className="btn-star">
+                                    <img className="btn-star-img"
+                                         src={checkIn(favorites, String(citiesId[i])) ?  redStar : blackStar}
+                                         alt="star"/>
+                                </button>
+                                <button onClick={() => console.log(citiesId[i])}> s</button>
+                            </li>
+                        )}
+                    </ul>
                 </div>
-            )
+            </div>
+        )
     }
 }
 

@@ -26,8 +26,8 @@ class Root extends React.Component{
         this.state = {
             searchQuery: "",
             cities : {},
-            weather: [],
             favorites : {},
+            weather: [],
             location: "",
         }
     }
@@ -42,13 +42,10 @@ class Root extends React.Component{
         fetch(`http://localhost:8089/weather/${this.state.searchQuery}`)
             .then((response) => response.json())
             .then((response) => {
-                let cityArr = response.data
-                let cities = cityArr.reduce((z, c, i)=>{
-                    z[i]= c; return z }, {});
-                console.log(cities);
-
+                let cityArr = response.data;
+                let cities = cityArr.reduce((z, c) => { z[c.woeid] = c.title; return z }, {} );
                 this.setState({
-                    cities: R.merge(cities , this.state.cities),
+                    cities: R.merge(cities, this.state.cities)
                 })
             })
             .catch((error) => alert("Ошибка :" + error))
@@ -66,11 +63,11 @@ class Root extends React.Component{
             .catch((error) => alert("Ошибка :" + error))
     }
 
-    addToFavorites(id) {
-        let {cities, favorites} = this.state;
+    addToFavorites(woeid) {
+        let {favorites} = this.state;
 
         this.setState({
-            favorites: R.assoc(cities[id].title, cities[id].woeid, favorites)
+            favorites: R.assoc(woeid, true , favorites)
         })
     }
 
@@ -104,6 +101,7 @@ class Root extends React.Component{
                     <Route path ="/favorites" render={() => (
                         <Favorites
                             favorites={favorites}
+                            cities={cities}
                             getWeather={(i) => this.getWeather(i)}
                             removeFromFavorites={(id) => this.removeFromFavorites(id)}/>
                     )}/>
