@@ -3,8 +3,9 @@ import {Link} from "react-router-dom";
 import search from "../../assets/images/zoom.ico";
 import blackStar from "../../assets/images/blackStar.png";
 import redStar from  "../../assets/images/redStar.png";
-import {checkIn} from "../Root/Root";
 import * as R from "ramda";
+
+let checkIn = (xs, x) => R.indexOf(x, xs) == -1 ? true : false;
 
 class Start extends React.Component{
     constructor(props){
@@ -13,7 +14,6 @@ class Start extends React.Component{
             searchValue : ""
         }
     }
-
     handleSearch = (event) => {
         let searchValue = event.target.value;
 
@@ -52,7 +52,6 @@ class Start extends React.Component{
                                          src={checkIn(favorites, String(citiesId[i])) ?  redStar : blackStar}
                                          alt="star"/>
                                 </button>
-                                <button onClick={() => console.log(citiesId[i])}> s</button>
                             </li>
                         )}
                     </ul>

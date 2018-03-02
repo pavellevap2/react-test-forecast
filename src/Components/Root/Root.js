@@ -1,12 +1,11 @@
 import React from "react";
+import {fetchData} from "../../actions/actions";
 import {Route ,Link ,NavLink, Switch} from "react-router-dom";
 import Start from "../Start/Start";
 import Favorites from "../Favorites/Favorites";
 import Forecast from "../Forecast/Forecast";
 import "./Root.css";
 import * as R from "ramda";
-
-let checkIn = (xs, x) => R.indexOf(x, xs) == -1 ? true : false;
 
 const Header = () => {
   return(
@@ -37,6 +36,17 @@ class Root extends React.Component{
             searchQuery : searchValue
         })
     };
+
+    // componentWillMount() {
+    //     fetchData(this.state.searchQuery)
+    //         .then((response) => {
+    //             let cityArr = response.data;
+    //             let cities = cityArr.reduce((z, c) => { z[c.woeid] = c.title; return z }, {} );
+    //             this.setState({
+    //                 cities: R.merge(cities, this.state.cities)
+    //             })
+    //         })
+    // }
 
     fetchCity(){
         fetch(`http://localhost:8089/weather/${this.state.searchQuery}`)
@@ -116,4 +126,4 @@ class Root extends React.Component{
         )
     }
 }
-export {Root, checkIn};
+export default Root;
