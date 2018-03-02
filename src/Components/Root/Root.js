@@ -42,6 +42,11 @@ class Root extends React.Component{
         fetch(`http://localhost:8089/weather/${this.state.searchQuery}`)
             .then((response) => response.json())
             .then((response) => {
+                let cityArr = response.data
+                let cities = cityArr.reduce((z, c, i)=>{
+                    z[i]= c; return z }, {});
+                console.log(cities);
+
                 this.setState({
                     cities: response.data,
                 })
@@ -59,7 +64,6 @@ class Root extends React.Component{
                 })
             })
             .catch((error) => alert("Ошибка :" + error))
-
     }
 
     addToFavorites(id) {
