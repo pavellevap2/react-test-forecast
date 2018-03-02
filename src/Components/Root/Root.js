@@ -25,7 +25,7 @@ class Root extends React.Component{
         super(props);
         this.state = {
             searchQuery: "",
-            cities : [],
+            cities : {},
             weather: [],
             favorites : {},
             location: "",
@@ -48,7 +48,7 @@ class Root extends React.Component{
                 console.log(cities);
 
                 this.setState({
-                    cities: response.data,
+                    cities: R.merge(cities , this.state.cities),
                 })
             })
             .catch((error) => alert("Ошибка :" + error))
