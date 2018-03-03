@@ -7,7 +7,7 @@ import * as R from "ramda";
 
 let checkIn = (xs, x) => R.indexOf(x, xs) == -1 ? false : true;
 
-let filter = (db, keys) => keys.reduce((a, key) => (a[key] = db[key], a), {})
+let filter = (obj, keys) => keys.reduce((z, x) => (z[x] = obj[x], z), {});
 
 let searchedCities = (xs, x) => {
     xs = xs.filter(cityName => new RegExp(x).test(cityName));

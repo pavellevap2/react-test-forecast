@@ -1,5 +1,5 @@
 import React from "react";
-import {fetchCities} from "../../actions/actions";
+import fetchCities from "../../actions/fetchCities"
 import {Route ,NavLink, Switch} from "react-router-dom";
 import Start from "../Start/Start";
 import Favorites from "../Favorites/Favorites";
@@ -17,6 +17,18 @@ const Header = () => {
       </header>
   )
 };
+
+let citiesList = [
+    { title: "San Francisco", location_type: "City", woeid: 2487956, },
+    { title: "San Diego", location_type: "City", woeid: 2487889, },
+    { title: "San Jose", location_type: "City", woeid: 2488042, },
+    { title: "San Antonio", location_type: "City", woeid: 2487796, },
+    { title: "Santa Cruz", location_type: "City", woeid: 2488853, },
+    { title: "Santiago", location_type: "City", woeid: 349859, },
+    { title: "Santorini", location_type: "City", woeid: 56558361, },
+    { title: "Santander", location_type: "City", woeid: 773964, },
+];
+
 
 class Root extends React.Component{
     constructor(props){
@@ -37,15 +49,10 @@ class Root extends React.Component{
     };
 
     loadCities(){
-       fetchCities(this.state.searchQuery)
-            .then((response) => {
-                let cityArr = response.data;
-                let cities = cityArr.reduce((z, c) => { z[c.title] = c.woeid; return z }, {} );
-                this.setState({
-                    cities: R.merge(cities, this.state.cities)
-                })
-            })
-            .catch((error) => alert("Ошибка :" + error))
+        let cities = citiesList.reduce((z, c) => { z[c.title] = c.woeid; return z }, {} );
+        this.setState({
+            cities: R.merge(cities, this.state.cities)
+        })
     }
 
     addToFavorites(woeid) {
