@@ -24,8 +24,6 @@ class Root extends React.Component{
         this.state = {
             cities : {},
             favorites : {},
-            weather: [],
-            location: "",
         }
     }
 
@@ -58,8 +56,7 @@ class Root extends React.Component{
     }
 
     render(){
-        let {cities, location, favorites} = this.state;
-        let weather = this.state.weather.slice(0, 5);
+        let {cities, favorites} = this.state;
 
         return(
             <div>
@@ -77,14 +74,11 @@ class Root extends React.Component{
                         <Favorites
                             favorites={favorites}
                             cities={cities}
-                            getWeather={(i) => this.loadForecast(i)}
                             removeFromFavorites={(id) => this.removeFromFavorites(id)}/>
                     )}/>
 
-                    <Route path={"/city/:id" } render={()=>
-                       <Forecast
-                           title={location}
-                           weather={weather}/>
+                    <Route path={"/weather/:id" } render={()=>
+                       <Forecast/>
                     }/>
                 </Switch>
             </div>
