@@ -12,7 +12,7 @@ app.use(Cors());
 
 
 app.get("/city/:city", (req, res, next) => {
-    A.get(API_ROOT_URL + "searchImg/", {params: {query: req.params.city}})
+    A.get(API_ROOT_URL + "search/", {params: {query: req.params.city}})
         .then((response) => {
             res.status(200).send({data: response.data});
         })

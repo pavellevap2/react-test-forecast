@@ -1,18 +1,15 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import searchImg from "../../assets/images/zoom.ico";
+import search from "../../assets/images/zoom.ico";
 import blackStar from "../../assets/images/blackStar.png";
 import redStar from  "../../assets/images/redStar.png";
 import * as R from "ramda";
 
 let checkIn = (xs, x) => R.indexOf(x, xs) == -1 ? false : true;
 
-let filter = (obj, keys) => keys.reduce((z, x) => (z[x] = obj[x], z), {});
+let filterCities = (cities, inputCity) => cities.filter(cityName => new RegExp(inputCity).test(cityName)) ;
 
-let searchedCities = (xs, x) => {
-    xs = xs.filter(cityName => new RegExp(x).test(cityName));
-    return xs;
-};
+let filter = (obj, keys) => keys.reduce((z, x) => (z[x] = obj[x], z), {});
 
 class Start extends React.Component{
     constructor(props){
@@ -22,55 +19,43 @@ class Start extends React.Component{
         }
     }
 
-    handleSearch = (event) => {
-        let searchValue = event.target.value;
-
-        this.setState({
-            searchValue: event.target.value
-        }, () => this.props.passingSearchValue(searchValue))
-    };
-
     render(){
-        let cities = R.keys(this.props.cities) ;
         let {searchValue} = this.state;
-        let citiesId = R.values(this.props.cities);
+        let availibleCities = R.keys(this.props.cities);
+        let filteredCities = filterCities(availibleCities, searchValue);
+
+        let cities = filteredCities.length > 0 ? filter(this.props.cities, filteredCities) : null;
+
+        let citiesTitles = R.keys(cities);
         let favorites = R.keys(this.props.favorites);
-
-        let search = () => {
-            return searchedCities( cities, searchValue).length > 0
-                ? cities = R.keys(filter(this.props.cities, searchedCities( cities, searchValue)))
-                : this.props.search;
-
-        };
 
         return(
             <div className="main">
                 <div className="main-input">
                     <input type="text"
                            placeholder="Enter a сity"
-                           onChange={(event) => this.handleSearch(event)}
+                           onChange={(e) => this.setState({searchValue : e.target.value})}
                            value={this.state.searchValue}/>
 
-                    <button className="btn_search"
-                            onClick={search()}>
-                        <img src={searchImg} alt="search"/>
+                    <button className="btn_search" onClick={cities == null ? this.props.search : undefined}>
+                        <img src={search} alt="search"/>
                     </button>
                 </div>
                 <div className="cities">
-                    <ul> {this.state.searchValue.length > 0 ?
-                        cities.map((x, i) =>
+                    <ul> {searchValue.length > 0
+                        ? citiesTitles.map((x, i) =>
                             <li key={i}>
-                                     <span onClick={() => this.props.loadForecast(citiesId[i])}>
-                                         <Link to={`/city/${i}`}>{cities[i]}</Link>
+                                     <span onClick={() => this.props.loadForecast(cities[x])}>
+                                         <Link to={`/city/${i}`}>{citiesTitles[i]}</Link>
                                      </span>
 
-                                <button onClick={() => this.props.addToFavorites(citiesId[i])} className="btn-star">
+                                <button onClick={() => this.props.addToFavorites(cities[x])} className="btn-star">
                                     <img className="btn-star-img"
-                                         src={checkIn(favorites, String(citiesId[i])) ? blackStar : redStar}
+                                         src={checkIn(favorites, String(cities[x])) ? blackStar : redStar}
                                          alt="star"/>
                                 </button>
                             </li>
-                        ) :null
+                        ): null
                     }
                     </ul>
                 </div>
