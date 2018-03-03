@@ -89,7 +89,6 @@ class Root extends React.Component{
                     <Route path={"/weather/:id" } render={()=>
                        <Forecast
                        id={cityId}
-                       cities={cities}
                        />
                     }/>
                 </Switch>
