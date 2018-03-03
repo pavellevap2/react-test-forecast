@@ -22,11 +22,22 @@ class Root extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            cities : {"San Francisco":2487956, "San Diego":  2487889, "Santa Cruz": 2488853, "Santiago" :349859},
+            cities : {},
             favorites : {},
             weather: [],
             location: "",
         }
+    }
+
+    loadCities(cities){
+        fetchCities(cities)
+            .then( (rensponse) => {
+                let citiesArr = rensponse.data;
+                let cities = citiesArr.reduce((z, c) => { z[c.title] = c.woeid; return z }, {} );
+                this.setState({
+                   cities: R.merge(cities, this.state.cities)
+                })
+            })
     }
 
     addToFavorites(woeid) {
@@ -56,6 +67,7 @@ class Root extends React.Component{
                 <Switch>
                     <Route exact path="/" render={()=>(
                         <Start
+                            search={(cities) => this.loadCities(cities)}
                             addToFavorites={(id) => this.addToFavorites(id)}
                             cities={cities}
                             favorites={favorites}/>

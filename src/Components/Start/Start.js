@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import search from "../../assets/images/zoom.ico";
+import searchImg from "../../assets/images/zoom.ico";
 import blackStar from "../../assets/images/blackStar.png";
 import redStar from  "../../assets/images/redStar.png";
 import * as R from "ramda";
@@ -37,8 +37,9 @@ class Start extends React.Component{
                            onChange={(e) => this.setState({searchValue : e.target.value})}
                            value={this.state.searchValue}/>
 
-                    <button className="btn_search" onClick={cities == null ? this.props.search : undefined}>
-                        <img src={search} alt="search"/>
+                    <button className="btn_search"
+                            onClick={cities == null ? () => this.props.search(searchValue) : undefined}>
+                        <img src={searchImg} alt="search"/>
                     </button>
                 </div>
                 <div className="cities">
