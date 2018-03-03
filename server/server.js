@@ -11,8 +11,8 @@ app.set("port", process.env.PORT || 8089);
 app.use(Cors());
 
 
-app.get("/weather/:city", (req, res, next) => {
-    A.get(API_ROOT_URL + "search/", {params: {query: req.params.city}})
+app.get("/city/:city", (req, res, next) => {
+    A.get(API_ROOT_URL + "searchImg/", {params: {query: req.params.city}})
         .then((response) => {
             res.status(200).send({data: response.data});
         })
@@ -23,8 +23,8 @@ app.get("/weather/:city", (req, res, next) => {
         .then(next);
 });
 
-app.get("/city/:weather", (req, res, next) => {
-    A.get(API_ROOT_URL + req.params.weather)
+app.get("/weather/:id", (req, res, next) => {
+    A.get(API_ROOT_URL + req.params.id)
         .then((response) => {
             res.status(200).send({data: response.data});
         })

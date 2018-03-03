@@ -13,7 +13,7 @@ class Favorites extends React.Component{
         }
     }
     render(){
-        let {favorites,cities} = this.props;
+        let {favorites, cities} = this.props;
         let favoritesWoeid = R.keys(favorites);
 
         return(
@@ -35,7 +35,7 @@ class Favorites extends React.Component{
                         <ul>
                             {favoritesWoeid.map((x, i) =>
                                 <li key={i}>
-                                 <span onClick={() => this.props.getWeather(favoritesWoeid[i])}>
+                                 <span onClick={() => this.props.loadForecast(favoritesWoeid[i])}>
                                      <Link to={`/city/${i}`}>{cities[x]}</Link>
                                  </span>
 

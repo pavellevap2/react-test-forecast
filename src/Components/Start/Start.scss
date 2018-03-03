@@ -21,7 +21,6 @@
         background-color: white;
         border-bottom: 1px solid black;
         @include text-props(black,34px,bold,5px);
-        text-transform: capitalize;
         text-shadow: 1px 1px 1px red;
       }
     .btn_search{

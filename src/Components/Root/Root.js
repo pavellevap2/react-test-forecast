@@ -1,6 +1,6 @@
 import React from "react";
-import {fetchData} from "../../actions/actions";
-import {Route ,Link ,NavLink, Switch} from "react-router-dom";
+import {fetchCities} from "../../actions/actions";
+import {Route ,NavLink, Switch} from "react-router-dom";
 import Start from "../Start/Start";
 import Favorites from "../Favorites/Favorites";
 import Forecast from "../Forecast/Forecast";
@@ -17,7 +17,6 @@ const Header = () => {
       </header>
   )
 };
-
 
 class Root extends React.Component{
     constructor(props){
@@ -37,37 +36,13 @@ class Root extends React.Component{
         })
     };
 
-    // componentWillMount() {
-    //     fetchData(this.state.searchQuery)
-    //         .then((response) => {
-    //             let cityArr = response.data;
-    //             let cities = cityArr.reduce((z, c) => { z[c.woeid] = c.title; return z }, {} );
-    //             this.setState({
-    //                 cities: R.merge(cities, this.state.cities)
-    //             })
-    //         })
-    // }
-
-    fetchCity(){
-        fetch(`http://localhost:8089/weather/${this.state.searchQuery}`)
-            .then((response) => response.json())
+    loadCities(){
+       fetchCities(this.state.searchQuery)
             .then((response) => {
                 let cityArr = response.data;
-                let cities = cityArr.reduce((z, c) => { z[c.woeid] = c.title; return z }, {} );
+                let cities = cityArr.reduce((z, c) => { z[c.title] = c.woeid; return z }, {} );
                 this.setState({
                     cities: R.merge(cities, this.state.cities)
-                })
-            })
-            .catch((error) => alert("Ошибка :" + error))
-    }
-
-    getWeather(woeid){
-        fetch(`http://localhost:8089/city/${woeid}`)
-            .then((response) => response.json())
-            .then((response) => {
-                this.setState({
-                    weather: response.data.consolidated_weather,
-                    location : response.data.title +" " + response.data.parent.title
                 })
             })
             .catch((error) => alert("Ошибка :" + error))
@@ -101,8 +76,8 @@ class Root extends React.Component{
                     <Route exact path="/" render={()=>(
                         <Start
                             passingSearchValue = {this.getSearchValue}
-                            search={() => this.fetchCity()}
-                            getWeather={(woeid) => this.getWeather(woeid)}
+                            search={() => this.loadCities()}
+                            getWeather={(woeid) => this.loadForecast(woeid)}
                             addToFavorites={(id) => this.addToFavorites(id)}
                             cities={cities}
                             favorites={favorites}/>
@@ -112,7 +87,7 @@ class Root extends React.Component{
                         <Favorites
                             favorites={favorites}
                             cities={cities}
-                            getWeather={(i) => this.getWeather(i)}
+                            getWeather={(i) => this.loadForecast(i)}
                             removeFromFavorites={(id) => this.removeFromFavorites(id)}/>
                     )}/>
 
