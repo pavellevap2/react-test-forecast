@@ -29,8 +29,8 @@ class Root extends React.Component{
         }
     }
 
-    loadCities(cities){
-        fetchCities(cities)
+    loadCities(citiesNameInput){
+        fetchCities(citiesNameInput)
             .then( (rensponse) => {
                 let citiesArr = rensponse.data;
                 let cities = citiesArr.reduce((z, c) => { z[c.title] = c.woeid; return z }, {} );
@@ -67,7 +67,7 @@ class Root extends React.Component{
                 <Switch>
                     <Route exact path="/" render={()=>(
                         <Start
-                            loadCities={(cities) => this.loadCities(cities)}
+                            loadCities={(citiesNameInput) => this.loadCities(citiesNameInput)}
                             addToFavorites={(id) => this.addToFavorites(id)}
                             cities={cities}
                             favorites={favorites}/>
