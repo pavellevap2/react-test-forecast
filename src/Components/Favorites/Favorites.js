@@ -31,11 +31,10 @@ class Favorites extends React.Component{
                     </div>
                     <div className="cities">
                         <ul>
-                            {this.state.searchValue.length > 0 ?
-                                favoritesCities.map((x, i) =>
+                            {favoritesCities.map((x, i) =>
                                     <li key={i}>
                                      <span onClick={() => this.props.loadForecast(cities[x])}>
-                                         <Link to={`/city/${i}`}>{x}</Link>
+                                         <Link to={`/weather/${i}`}>{x}</Link>
                                      </span>
 
                                         <button onClick={() => this.props.removeFromFavorites(i)}
@@ -44,7 +43,7 @@ class Favorites extends React.Component{
                                                  src={del} alt="star"/>
                                         </button>
                                     </li>
-                                ) : null
+                                )
                             }
                         </ul>
                     </div>

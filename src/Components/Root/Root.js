@@ -24,8 +24,15 @@ class Root extends React.Component{
         this.state = {
             cities : {},
             favorites : {},
+            cityId  :""
         }
     }
+
+    takeCityId = (id) => {
+        this.setState({
+            cityId : id
+        })
+    };
 
     loadCities(cityNameInput){
         fetchCities(cityNameInput)
@@ -56,7 +63,7 @@ class Root extends React.Component{
     }
 
     render(){
-        let {cities, favorites} = this.state;
+        let {cities, favorites, cityId} = this.state;
 
         return(
             <div>
@@ -66,6 +73,7 @@ class Root extends React.Component{
                         <Start
                             loadCities={(cityNameInput) => this.loadCities(cityNameInput)}
                             addToFavorites={(id) => this.addToFavorites(id)}
+                            loadForecast={(id) => this.takeCityId(id)}
                             cities={cities}
                             favorites={favorites}/>
                     )}/>
@@ -74,11 +82,15 @@ class Root extends React.Component{
                         <Favorites
                             favorites={favorites}
                             cities={cities}
-                            removeFromFavorites={(id) => this.removeFromFavorites(id)}/>
+                            removeFromFavorites={(id) => this.removeFromFavorites(id)}
+                            loadForecast={(id) => this.takeCityId(id)}/>
                     )}/>
 
                     <Route path={"/weather/:id" } render={()=>
-                       <Forecast/>
+                       <Forecast
+                       id={cityId}
+                       cities={cities}
+                       />
                     }/>
                 </Switch>
             </div>

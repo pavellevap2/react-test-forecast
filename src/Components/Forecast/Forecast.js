@@ -1,5 +1,6 @@
 import React from "react";
 import fetchForecast from "../../actions/fetchForecast";
+
 const URL_ICON = "https://www.metaweather.com/static/img/weather";
 
 class Forecast extends React.Component{
@@ -12,7 +13,7 @@ class Forecast extends React.Component{
     }
 
     componentWillMount(){
-        fetchForecast(2487796)
+        fetchForecast(this.props.id)
             .then((response) => {
                 this.setState({
                     weather: response.data.consolidated_weather,
@@ -22,14 +23,15 @@ class Forecast extends React.Component{
     }
 
     render(){
-        let {weather, location} = this.state;
+        let {location} = this.state;
+        let weather = this.state.weather.slice(0,5);
 
         return(
             <div className="Forecast">
                 <h1 className="Forecast-title">{location}</h1>
                 {weather.map((_, i) =>
-                    <div className="Forecast-days">
-                        <ul className="Forecast-day" key={i}>
+                    <div key={i} className="Forecast-days">
+                        <ul className="Forecast-day" >
                             <li className="Forecast-day_weather">
                                 {i == 0 ? "Today" : i == 1 ? "Tomorrow" : weather[i].applicable_date}
                             </li>
@@ -44,6 +46,7 @@ class Forecast extends React.Component{
                                 Wind direction: {weather[i].wind_direction_compass}
                             </li>
                         </ul>
+                        <button  onClick={()=>console.log(weather)}>s</button>
                     </div>
                 )}
             </div>
