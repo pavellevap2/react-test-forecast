@@ -40,20 +40,20 @@ class Root extends React.Component{
             })
     }
 
-    addToFavorites(woeid) {
+    addToFavorites(cityName) {
         let {favorites} = this.state;
 
         this.setState({
-            favorites: R.assoc(woeid, true , favorites)
+            favorites: R.assoc(cityName, true , favorites)
         })
     }
 
-    removeFromFavorites(id) {
+    removeFromFavorites(cityName) {
         let {favorites} = this.state;
-        let favoritesId = R.keys(favorites);
+        let favoritesCities = R.keys(favorites);
 
         this.setState({
-            favorites: R.dissoc(favoritesId[id], favorites)
+            favorites: R.dissoc(favoritesCities[cityName], favorites)
         })
     }
 
@@ -67,7 +67,7 @@ class Root extends React.Component{
                 <Switch>
                     <Route exact path="/" render={()=>(
                         <Start
-                            search={(cities) => this.loadCities(cities)}
+                            loadCities={(cities) => this.loadCities(cities)}
                             addToFavorites={(id) => this.addToFavorites(id)}
                             cities={cities}
                             favorites={favorites}/>

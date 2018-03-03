@@ -14,7 +14,7 @@ class Favorites extends React.Component{
     }
     render(){
         let {favorites, cities} = this.props;
-        let favoritesWoeid = R.keys(favorites);
+        let favoritesCities = R.keys(favorites);
 
         return(
             <div>
@@ -33,10 +33,10 @@ class Favorites extends React.Component{
                     </div>
                     <div className="cities">
                         <ul>
-                            {favoritesWoeid.map((x, i) =>
+                            {favoritesCities.map((x, i) =>
                                 <li key={i}>
-                                 <span onClick={() => this.props.loadForecast(favoritesWoeid[i])}>
-                                     <Link to={`/city/${i}`}>{cities[x]}</Link>
+                                 <span onClick={() => this.props.loadForecast(cities[x])}>
+                                     <Link to={`/city/${i}`}>{favoritesCities[i]}</Link>
                                  </span>
 
                                     <button onClick={() => this.props.removeFromFavorites(i)}
@@ -44,6 +44,7 @@ class Favorites extends React.Component{
                                         <img className="btn-star-img"
                                              src={del} alt="star"/>
                                     </button>
+                                    <button onClick={() => console.log( favoritesCities)}>sd</button>
                                 </li>
                             )}
                         </ul>

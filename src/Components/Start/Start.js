@@ -38,7 +38,7 @@ class Start extends React.Component{
                            value={this.state.searchValue}/>
 
                     <button className="btn_search"
-                            onClick={cities == null ? () => this.props.search(searchValue) : undefined}>
+                            onClick={cities == null ? () => this.props.loadCities(searchValue) : undefined}>
                         <img src={searchImg} alt="search"/>
                     </button>
                 </div>
@@ -50,11 +50,12 @@ class Start extends React.Component{
                                          <Link to={`/city/${i}`}>{citiesTitles[i]}</Link>
                                      </span>
 
-                                <button onClick={() => this.props.addToFavorites(cities[x])} className="btn-star">
+                                <button onClick={() => this.props.addToFavorites(citiesTitles[i])} className="btn-star">
                                     <img className="btn-star-img"
-                                         src={checkIn(favorites, String(cities[x])) ? blackStar : redStar}
+                                         src={checkIn(favorites, String(citiesTitles[i])) ? blackStar : redStar}
                                          alt="star"/>
                                 </button>
+                                <button onClick={() => console.log(citiesTitles[i])}>s</button>
                             </li>
                         ): null
                     }
