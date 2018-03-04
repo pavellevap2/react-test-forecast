@@ -47,7 +47,7 @@ class Root extends React.Component{
             })
     }
 
-    componentWillUpdate(nextProps, nextState){
+    componentWillUpdate(_, nextState){
         localStorage.setItem("cities", JSON.stringify(nextState.cities));
         localStorage.setItem("favorites", JSON.stringify(nextState.favorites));
     }

@@ -29,7 +29,7 @@ class Start extends React.Component{
                            placeholder="Enter a сity"
                            onChange={(e) => this.setState({searchValue : e.target.value})}
                            value={this.state.searchValue}/>
-
+g
                     <button className="btn_search"
                             onClick={filteredCities.length == 0 ? () => this.props.loadCities(searchValue) : undefined}>
                         <img src={searchImg} alt="search"/>
