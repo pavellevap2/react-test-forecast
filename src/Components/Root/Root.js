@@ -33,8 +33,7 @@ class Root extends React.Component{
         this.setState({
             cities : JSON.parse(localStorage.getItem("cities")),
             favorites: JSON.parse(localStorage.getItem("favorites"))
-        });
-        setInterval(() => localStorage.clear(), 15000)
+        })
     }
 
     loadCities(cityNameInput){
@@ -50,6 +49,10 @@ class Root extends React.Component{
     componentWillUpdate(nextProps, nextState){
         localStorage.setItem("cities",JSON.stringify(nextState.cities));
         localStorage.setItem("favorites",JSON.stringify(nextState.favorites))
+    }
+
+    componentDidUpdate(){
+        setInterval(() => localStorage.clear(), 15000)
     }
 
     addToFavorites(cityName) {
