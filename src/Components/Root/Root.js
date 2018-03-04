@@ -6,6 +6,7 @@ import Favorites from "../Favorites/Favorites";
 import Forecast from "../Forecast/Forecast";
 import "./Root.css";
 import * as R from "ramda";
+import {minToMs} from "../../helpers/helpers";
 
 const Header = () => {
   return(
@@ -28,11 +29,13 @@ class Root extends React.Component{
         }
     }
 
-    takeCityId = (id) => {
+    componentWillMount(){
         this.setState({
-            cityId : id
-        })
-    };
+            cities : JSON.parse(localStorage.getItem("cities")),
+            favorites: JSON.parse(localStorage.getItem("favorites"))
+        });
+        setInterval(() => localStorage.clear(), 15000)
+    }
 
     loadCities(cityNameInput){
         fetchCities(cityNameInput)
@@ -43,6 +46,10 @@ class Root extends React.Component{
                    cities: R.merge(cities, this.state.cities)
                 })
             })
+    }
+    componentWillUpdate(nextProps, nextState){
+        localStorage.setItem("cities",JSON.stringify(nextState.cities));
+        localStorage.setItem("favorites",JSON.stringify(nextState.favorites))
     }
 
     addToFavorites(cityName) {
@@ -61,7 +68,6 @@ class Root extends React.Component{
             favorites: R.dissoc(favoritesCities[cityName], favorites)
         })
     }
-
     render(){
         let {cities, favorites, cityId} = this.state;
 
@@ -73,7 +79,7 @@ class Root extends React.Component{
                         <Start
                             loadCities={(cityNameInput) => this.loadCities(cityNameInput)}
                             addToFavorites={(id) => this.addToFavorites(id)}
-                            loadForecast={(id) => this.takeCityId(id)}
+                            loadForecast={(id) => this.setState({cityId :id})}
                             cities={cities}
                             favorites={favorites}/>
                     )}/>
@@ -83,7 +89,7 @@ class Root extends React.Component{
                             favorites={favorites}
                             cities={cities}
                             removeFromFavorites={(id) => this.removeFromFavorites(id)}
-                            loadForecast={(id) => this.takeCityId(id)}/>
+                            loadForecast={(id) => this.setState({cityId :id})}/>
                     )}/>
 
                     <Route path={"/weather/:id" } render={()=>

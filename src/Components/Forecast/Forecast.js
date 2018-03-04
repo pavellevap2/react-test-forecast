@@ -11,7 +11,6 @@ class Forecast extends React.Component{
             location:""
         }
     }
-
     componentWillMount(){
         fetchForecast(this.props.id)
             .then((response) => {
@@ -21,7 +20,6 @@ class Forecast extends React.Component{
                 })
             })
     }
-
     render(){
         let {location} = this.state;
         let weather = this.state.weather.slice(0,5);
@@ -46,7 +44,6 @@ class Forecast extends React.Component{
                                 Wind direction: {weather[i].wind_direction_compass}
                             </li>
                         </ul>
-                        <button  onClick={()=>console.log(weather)}>s</button>
                     </div>
                 )}
             </div>
