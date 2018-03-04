@@ -1,8 +1,8 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import search from "../../assets/images/zoom.ico";
 import del from "../../assets/images/delete.png";
 import * as R from "ramda";
+import {filter, filterCities} from "../../helpers/helpers";
 
 
 class Favorites extends React.Component{
@@ -13,8 +13,12 @@ class Favorites extends React.Component{
         }
     }
     render(){
-        let {favorites, cities} = this.props;
-        let favoritesWoeid = R.keys(favorites);
+        let {cities} = this.props;
+        let availibleFavorites = R.keys(this.props.favorites);
+        let filtredFavorites = filterCities(availibleFavorites, this.state.searchValue);
+
+        let favorites = filtredFavorites.length > 0 ? filter(this.props.favorites, filtredFavorites) : null;
+        let favoritesCities = R.keys(favorites);
 
         return(
             <div>
@@ -23,29 +27,24 @@ class Favorites extends React.Component{
                         <input type="text"
                                onChange={(e) => this.setState({searchValue : e.target.value})}
                                value={this.state.searchValue}
-                               disabled={true}
-                               placeholder="doesn't work"/>
-                        <button className="btn_search"
-                                disabled={true}
-                                onClick={this.props.search}>
-                            <img src={search} alt="search"/>
-                        </button>
+                               placeholder="Search favorite cities"/>
                     </div>
                     <div className="cities">
                         <ul>
-                            {favoritesWoeid.map((x, i) =>
-                                <li key={i}>
-                                 <span onClick={() => this.props.loadForecast(favoritesWoeid[i])}>
-                                     <Link to={`/city/${i}`}>{cities[x]}</Link>
-                                 </span>
+                            {favoritesCities.map((x, i) =>
+                                    <li key={i}>
+                                     <span onClick={() => this.props.loadForecast(cities[x])}>
+                                         <Link to={`/weather/${i}`}>{x}</Link>
+                                     </span>
 
-                                    <button onClick={() => this.props.removeFromFavorites(i)}
-                                            className="btn-star">
-                                        <img className="btn-star-img"
-                                             src={del} alt="star"/>
-                                    </button>
-                                </li>
-                            )}
+                                        <button onClick={() => this.props.removeFromFavorites(i)}
+                                                className="btn-star">
+                                            <img className="btn-star-img"
+                                                 src={del} alt="star"/>
+                                        </button>
+                                    </li>
+                                )
+                            }
                         </ul>
                     </div>
                 </div>

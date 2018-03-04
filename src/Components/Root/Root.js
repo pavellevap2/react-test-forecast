@@ -6,6 +6,7 @@ import Favorites from "../Favorites/Favorites";
 import Forecast from "../Forecast/Forecast";
 import "./Root.css";
 import * as R from "ramda";
+import {minToMs} from "../../helpers/helpers";
 
 const Header = () => {
   return(
@@ -22,33 +23,56 @@ class Root extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            cities : {"San Francisco":2487956, "San Diego":  2487889, "Santa Cruz": 2488853, "Santiago" :349859},
+            cities : {},
             favorites : {},
-            weather: [],
-            location: "",
+            cityId  :""
         }
     }
 
-    addToFavorites(woeid) {
-        let {favorites} = this.state;
-
+    componentWillMount(){
         this.setState({
-            favorites: R.assoc(woeid, true , favorites)
+            cities : JSON.parse(localStorage.getItem("cities")),
+            favorites: JSON.parse(localStorage.getItem("favorites"))
         })
     }
 
-    removeFromFavorites(id) {
+    loadCities(cityNameInput){
+        fetchCities(cityNameInput)
+            .then( (rensponse) => {
+                let citiesArr = rensponse.data;
+                let cities = citiesArr.reduce((z, c) => { z[c.title] = c.woeid; return z }, {} );
+                this.setState({
+                   cities: R.merge(cities, this.state.cities)
+                })
+            })
+    }
+    componentWillUpdate(nextProps, nextState){
+        localStorage.setItem("cities",JSON.stringify(nextState.cities));
+        localStorage.setItem("favorites",JSON.stringify(nextState.favorites))
+    }
+
+    componentDidUpdate(){
+        setInterval(() => localStorage.clear(), 15000)
+    }
+
+    addToFavorites(cityName) {
         let {favorites} = this.state;
-        let favoritesId = R.keys(favorites);
 
         this.setState({
-            favorites: R.dissoc(favoritesId[id], favorites)
+            favorites: R.assoc(cityName, true , favorites)
         })
     }
 
+    removeFromFavorites(cityName) {
+        let {favorites} = this.state;
+        let favoritesCities = R.keys(favorites);
+
+        this.setState({
+            favorites: R.dissoc(favoritesCities[cityName], favorites)
+        })
+    }
     render(){
-        let {cities, location, favorites} = this.state;
-        let weather = this.state.weather.slice(0, 5);
+        let {cities, favorites, cityId} = this.state;
 
         return(
             <div>
@@ -56,7 +80,9 @@ class Root extends React.Component{
                 <Switch>
                     <Route exact path="/" render={()=>(
                         <Start
+                            loadCities={(cityNameInput) => this.loadCities(cityNameInput)}
                             addToFavorites={(id) => this.addToFavorites(id)}
+                            loadForecast={(id) => this.setState({cityId :id})}
                             cities={cities}
                             favorites={favorites}/>
                     )}/>
@@ -65,14 +91,14 @@ class Root extends React.Component{
                         <Favorites
                             favorites={favorites}
                             cities={cities}
-                            getWeather={(i) => this.loadForecast(i)}
-                            removeFromFavorites={(id) => this.removeFromFavorites(id)}/>
+                            removeFromFavorites={(id) => this.removeFromFavorites(id)}
+                            loadForecast={(id) => this.setState({cityId :id})}/>
                     )}/>
 
-                    <Route path={"/city/:id" } render={()=>
+                    <Route path={"/weather/:id" } render={()=>
                        <Forecast
-                           title={location}
-                           weather={weather}/>
+                       id={cityId}
+                       />
                     }/>
                 </Switch>
             </div>

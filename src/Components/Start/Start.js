@@ -1,15 +1,10 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import search from "../../assets/images/zoom.ico";
+import searchImg from "../../assets/images/zoom.ico";
 import blackStar from "../../assets/images/blackStar.png";
 import redStar from  "../../assets/images/redStar.png";
 import * as R from "ramda";
-
-let checkIn = (xs, x) => R.indexOf(x, xs) == -1 ? false : true;
-
-let filterCities = (cities, inputCity) => cities.filter(cityName => new RegExp(inputCity).test(cityName)) ;
-
-let filter = (obj, keys) => keys.reduce((z, x) => (z[x] = obj[x], z), {});
+import {filter, filterCities, checkIn} from "../../helpers/helpers";
 
 class Start extends React.Component{
     constructor(props){
@@ -37,8 +32,9 @@ class Start extends React.Component{
                            onChange={(e) => this.setState({searchValue : e.target.value})}
                            value={this.state.searchValue}/>
 
-                    <button className="btn_search" onClick={cities == null ? this.props.search : undefined}>
-                        <img src={search} alt="search"/>
+                    <button className="btn_search"
+                            onClick={cities == null ? () => this.props.loadCities(searchValue) : undefined}>
+                        <img src={searchImg} alt="search"/>
                     </button>
                 </div>
                 <div className="cities">
@@ -46,12 +42,12 @@ class Start extends React.Component{
                         ? citiesTitles.map((x, i) =>
                             <li key={i}>
                                      <span onClick={() => this.props.loadForecast(cities[x])}>
-                                         <Link to={`/city/${i}`}>{citiesTitles[i]}</Link>
+                                         <Link to={`/weather/${i}`}>{x}</Link>
                                      </span>
 
-                                <button onClick={() => this.props.addToFavorites(cities[x])} className="btn-star">
+                                <button onClick={() => this.props.addToFavorites(x)} className="btn-star">
                                     <img className="btn-star-img"
-                                         src={checkIn(favorites, String(cities[x])) ? blackStar : redStar}
+                                         src={checkIn(favorites, String(x)) ? blackStar : redStar}
                                          alt="star"/>
                                 </button>
                             </li>
