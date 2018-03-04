@@ -2,7 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import del from "../../assets/images/delete.png";
 import * as R from "ramda";
-import {filter, filterCities} from "../../helpers/helpers";
+import {filterCities} from "../../helpers/helpers";
 
 
 class Favorites extends React.Component{
@@ -13,12 +13,9 @@ class Favorites extends React.Component{
         }
     }
     render(){
-        let {cities} = this.props;
-        let availibleFavorites = R.keys(this.props.favorites);
+        let {cities, favorites} = this.props;
+        let availibleFavorites = R.keys(favorites);
         let filtredFavorites = filterCities(availibleFavorites, this.state.searchValue);
-
-        let favorites = filtredFavorites.length > 0 ? filter(this.props.favorites, filtredFavorites) : null;
-        let favoritesCities = R.keys(favorites);
 
         return(
             <div>
@@ -31,7 +28,7 @@ class Favorites extends React.Component{
                     </div>
                     <div className="cities">
                         <ul>
-                            {favoritesCities.map((x, i) =>
+                            {filtredFavorites.map((x, i) =>
                                     <li key={i}>
                                      <span onClick={() => this.props.loadForecast(cities[x])}>
                                          <Link to={`/weather/${i}`}>{x}</Link>

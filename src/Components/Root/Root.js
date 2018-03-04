@@ -31,7 +31,7 @@ class Root extends React.Component{
 
     componentWillMount(){
         this.setState({
-            cities : JSON.parse(localStorage.getItem("cities")),
+            cities: JSON.parse(localStorage.getItem("cities")),
             favorites: JSON.parse(localStorage.getItem("favorites"))
         })
     }
@@ -46,20 +46,21 @@ class Root extends React.Component{
                 })
             })
     }
+
     componentWillUpdate(nextProps, nextState){
-        localStorage.setItem("cities",JSON.stringify(nextState.cities));
-        localStorage.setItem("favorites",JSON.stringify(nextState.favorites))
+        localStorage.setItem("cities", JSON.stringify(nextState.cities));
+        localStorage.setItem("favorites", JSON.stringify(nextState.favorites));
     }
 
     componentDidUpdate(){
-        setInterval(() => localStorage.clear(), 15000)
+        setInterval(() => localStorage.clear(), minToMs(15))
     }
 
     addToFavorites(cityName) {
         let {favorites} = this.state;
 
         this.setState({
-            favorites: R.assoc(cityName, true , favorites)
+            favorites: R.assoc(cityName, true, favorites)
         })
     }
 
