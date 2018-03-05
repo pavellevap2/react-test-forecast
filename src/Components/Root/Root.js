@@ -1,4 +1,5 @@
 import React from "react";
+import autoBind from "auto-bind";
 import fetchCities from "../../actions/fetchCities"
 import {Route ,NavLink, Switch} from "react-router-dom";
 import Start from "../Start/Start";
@@ -22,10 +23,11 @@ const Header = () => {
 class Root extends React.Component{
     constructor(props){
         super(props);
+        autoBind(this);
+
         this.state = {
             cities : {},
             favorites : {},
-            cityId  :""
         }
     }
 
@@ -73,7 +75,7 @@ class Root extends React.Component{
         })
     }
     render(){
-        let {cities, favorites, cityId} = this.state;
+        let {cities, favorites,} = this.state;
 
         return(
             <div>
@@ -81,9 +83,8 @@ class Root extends React.Component{
                 <Switch>
                     <Route exact path="/" render={()=>(
                         <Start
-                            loadCities={(cityNameInput) => this.loadCities(cityNameInput)}
-                            addToFavorites={(id) => this.addToFavorites(id)}
-                            loadForecast={(id) => this.setState({cityId :id})}
+                            loadCities={this.loadCities}
+                            addToFavorites={this.addToFavorites}
                             cities={cities}
                             favorites={favorites}/>
                     )}/>
@@ -92,14 +93,11 @@ class Root extends React.Component{
                         <Favorites
                             favorites={favorites}
                             cities={cities}
-                            removeFromFavorites={(id) => this.removeFromFavorites(id)}
-                            loadForecast={(id) => this.setState({cityId :id})}/>
+                            removeFromFavorites={this.removeFromFavorites}/>
                     )}/>
 
-                    <Route path={"/weather/:id" } render={()=>
-                       <Forecast
-                       id={cityId}
-                       />
+                    <Route path={"/weather/:id" } render={({match})=>
+                       <Forecast id={match.params.id}/>
                     }/>
                 </Switch>
             </div>

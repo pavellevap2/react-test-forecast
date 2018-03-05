@@ -14,8 +14,8 @@ class Favorites extends React.Component{
     }
     render(){
         let {cities, favorites} = this.props;
-        let availibleFavorites = R.keys(favorites);
-        let filtredFavorites = filterCities(availibleFavorites, this.state.searchValue);
+        let availableFavorites = R.keys(favorites);
+        let filteredFavorites = filterCities(availableFavorites, this.state.searchValue);
 
         return(
             <div>
@@ -28,16 +28,12 @@ class Favorites extends React.Component{
                     </div>
                     <div className="cities">
                         <ul>
-                            {filtredFavorites.map((x, i) =>
+                            {filteredFavorites.map((x, i) =>
                                     <li key={i}>
-                                     <span onClick={() => this.props.loadForecast(cities[x])}>
-                                         <Link to={`/weather/${i}`}>{x}</Link>
-                                     </span>
+                                     <span><Link to={`/weather/${cities[x]}`}>{x}</Link></span>
 
-                                        <button onClick={() => this.props.removeFromFavorites(i)}
-                                                className="btn-star">
-                                            <img className="btn-star-img"
-                                                 src={del} alt="star"/>
+                                        <button onClick={() => this.props.removeFromFavorites(i)} className="btn-star">
+                                            <img className="btn-star-img" src={del} alt="star"/>
                                         </button>
                                     </li>
                                 )
