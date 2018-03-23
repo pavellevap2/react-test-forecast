@@ -11,6 +11,7 @@ class Favorites extends React.Component {
       searchValue: '',
     }
   }
+
   render() {
     let { cities, favorites } = this.props
     let availableFavorites = R.keys(favorites)
