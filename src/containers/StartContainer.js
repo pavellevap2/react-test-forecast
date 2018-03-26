@@ -1,4 +1,4 @@
-import Start from '../components/Start/Start'
+import Start from '../components/Start'
 import { connect } from 'react-redux'
 import {
   getCities,

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { getForecast } from '../selectors/selectors'
-import Forecast from '../components/Forecast/Forecast'
+import Forecast from '../components/Forecast'
 import { forecastFetchData } from '../actions/actions'
 
 const mapStateToProps = state => ({
