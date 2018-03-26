@@ -1,22 +1,20 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import del from '../../assets/images/delete.png'
-import * as R from 'ramda'
-import { filterCities } from '../../helpers/helpers'
 
 class Favorites extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      searchValue: '',
-    }
   }
 
   render() {
-    const { favorites, removeFromFavorites } = this.props
-    const { searchValue } = this.state
-    const availableFavorites = R.keys(favorites)
-    const filteredFavorites = filterCities(availableFavorites, searchValue)
+    const {
+      favorites,
+      removeFromFavorites,
+      favoriteCity,
+      inputFavorite,
+      filteredFavorites,
+    } = this.props
 
     return (
       <div>
@@ -24,8 +22,8 @@ class Favorites extends React.Component {
           <div className="main-input">
             <input
               type="text"
-              onChange={e => this.setState({ searchValue: e.target.value })}
-              value={searchValue}
+              onChange={e => inputFavorite(e.target.value)}
+              value={favoriteCity}
               placeholder="Search favorite cities"
             />
           </div>
@@ -38,7 +36,7 @@ class Favorites extends React.Component {
                   </span>
 
                   <button
-                    onClick={() => removeFromFavorites(i)}
+                    onClick={() => removeFromFavorites(city)}
                     className="btn-star"
                   >
                     <img className="btn-star-img" src={del} alt="star" />

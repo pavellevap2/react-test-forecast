@@ -10,26 +10,24 @@ import favorites from '../../reducers/favorites'
 class Start extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      searchValue: '',
-    }
   }
 
   searchCities() {
-    let { searchValue } = this.state
-    let filteredCities = filterCities(R.keys(this.props.cities), searchValue)
+    const { cityName, citiesFetchData, filteredCities } = this.props
 
     if (!filteredCities.length) {
-      this.props.citiesFetchData(searchValue)
+      citiesFetchData(cityName)
     }
   }
 
   render() {
-    const { searchValue } = this.state
-    const { cities, addToFavorites } = this.props
-    const availableCities = R.keys(cities)
-
-    const filteredCities = filterCities(availableCities, searchValue)
+    const {
+      cityName,
+      inputCity,
+      filteredCities,
+      cities,
+      addToFavorites,
+    } = this.props
     const favorites = R.keys(this.props.favorites)
 
     return (
@@ -38,8 +36,8 @@ class Start extends React.Component {
           <input
             type="text"
             placeholder="Enter a сity"
-            onChange={e => this.setState({ searchValue: e.target.value })}
-            value={this.state.searchValue}
+            onChange={e => inputCity(e.target.value)}
+            value={cityName}
           />
 
           <button className="btn_search" onClick={() => this.searchCities()}>
@@ -48,7 +46,7 @@ class Start extends React.Component {
         </div>
         <div className="cities">
           <ul>
-            {searchValue.length
+            {cityName.length
               ? filteredCities.map((city, i) => (
                   <li key={i}>
                     <span>

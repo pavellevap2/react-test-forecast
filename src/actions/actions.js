@@ -1,7 +1,19 @@
+import * as R from 'ramda'
+
 export const LOAD_CITIES = '@@ROOT/START/LOAD_CITIES'
 export const MAKE_FAVORITE = '@@ROOT/START/MAKE_FAVORITE'
-export const REMOVE_FROM_FAVORITE = '@@ROOT/START/'
+export const REMOVE_FROM_FAVORITES = '@@ROOT/START/'
 export const LOAD_FORECAST = '@@ROOT/START/FORECAST/'
+export const INPUT_CITY = '@@/ROOT/START/INPUT'
+export const INPUT_FAVORITE_CITY = '@@/ROOT/FAVORITES/INPUT'
+export const LOAD_FAVORITES = '@@/ROOT/FAVORITES/LOAD_FAVORITES'
+
+export const inputCity = cityName => ({ type: INPUT_CITY, payload: cityName })
+
+export const inputFavoriteCity = cityName => ({
+  type: INPUT_FAVORITE_CITY,
+  payload: cityName,
+})
 
 const loadCities = cities => ({ type: LOAD_CITIES, payload: cities })
 
@@ -25,13 +37,24 @@ export const citiesFetchData = cityName => dispatch => {
 }
 
 export const addToFavorites = (city, cityId) => {
+  const favorites = JSON.parse(localStorage.getItem('favorites'))
+  localStorage.setItem(
+    'favorites',
+    JSON.stringify({ ...favorites, [city]: cityId }),
+  )
+
   return { type: MAKE_FAVORITE, payload: { city, cityId } }
 }
 
-export const removeFromFavorites = id => ({
-  type: REMOVE_FROM_FAVORITE,
-  payload: id,
-})
+export const removeFromFavorites = favoriteName => {
+  const favorites = JSON.parse(localStorage.getItem('favorites'))
+  localStorage.setItem(
+    'favorites',
+    JSON.stringify(R.dissoc(favorites, favorites)),
+  )
+
+  return { type: REMOVE_FROM_FAVORITES, payload: favoriteName }
+}
 
 export const loadForecast = (weather, location) => ({
   type: LOAD_FORECAST,
@@ -49,4 +72,13 @@ export const forecastFetchData = cityId => dispatch => {
       dispatch(loadForecast(weather, location))
     })
     .catch(err => console.log(err))
+}
+
+export const loadFavorites = () => {
+  const favorites = JSON.parse(localStorage.getItem('favorites'))
+
+  return {
+    type: LOAD_FAVORITES,
+    payload: favorites,
+  }
 }
