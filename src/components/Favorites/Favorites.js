@@ -13,12 +13,11 @@ class Favorites extends React.Component {
   }
 
   render() {
-    let { cities, favorites } = this.props
-    let availableFavorites = R.keys(favorites)
-    let filteredFavorites = filterCities(
-      availableFavorites,
-      this.state.searchValue,
-    )
+    const { favorites, removeFromFavorites } = this.props
+    const { searchValue } = this.state
+    const availableFavorites = R.keys(favorites)
+    const filteredFavorites = filterCities(availableFavorites, searchValue)
+
     return (
       <div>
         <div className="main">
@@ -26,20 +25,20 @@ class Favorites extends React.Component {
             <input
               type="text"
               onChange={e => this.setState({ searchValue: e.target.value })}
-              value={this.state.searchValue}
+              value={searchValue}
               placeholder="Search favorite cities"
             />
           </div>
           <div className="cities">
             <ul>
-              {filteredFavorites.map((x, i) => (
+              {filteredFavorites.map((city, i) => (
                 <li key={i}>
                   <span>
-                    <Link to={`/weather/${cities[x]}`}>{x}</Link>
+                    <Link to={`/weather/${favorites[city]}`}>{city}</Link>
                   </span>
 
                   <button
-                    onClick={() => this.props.removeFromFavorites(i)}
+                    onClick={() => removeFromFavorites(i)}
                     className="btn-star"
                   >
                     <img className="btn-star-img" src={del} alt="star" />

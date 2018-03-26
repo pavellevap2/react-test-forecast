@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { BrowserRouter } from 'react-router-dom'
-import Root from './Components/Root/Root'
+import Root from './components/Root/Root'
+import { Provider } from 'react-redux'
+import store from './configureStore'
 
 ReactDOM.render(
-  <BrowserRouter>
+  <Provider store={store}>
     <Root />
-  </BrowserRouter>,
+  </Provider>,
   document.getElementById('root'),
 )
