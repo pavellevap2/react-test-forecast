@@ -1,19 +1,19 @@
 import React from 'react'
-import searchImg from '../../assets/images/zoom.ico'
+import { Link } from 'react-router-dom'
+import searchImg from '../assets/images/zoom.ico'
+import blackStar from '../assets/images/blackStar.png'
+import redStar from '../assets/images/redStar.png'
 import * as R from 'ramda'
-import City from '../City/Сity'
-import { checkIn } from '../../helpers/helpers'
-import blackStar from '../../assets/images/blackStar.png'
-import redStar from '../../assets/images/redStar.png'
-
+import { checkIn } from '../helpers/helpers'
 import {
-  MainInput,
-  MainComponent,
+  ButtonSearchCity,
   CitiesComponent,
   InputCityName,
+  MainInput,
+  MainComponent,
   ImgSearch,
-  ButtonSearchCity,
-} from '../Commons/Commons'
+} from './Commons'
+import City from './Сity'
 
 const Start = props => {
   const {
@@ -42,7 +42,7 @@ const Start = props => {
           value={cityName}
         />
 
-        <ButtonSearchCity onClick={() => searchCities()}>
+        <ButtonSearchCity className="btn_search" onClick={() => searchCities()}>
           <ImgSearch src={searchImg} alt="search" />
         </ButtonSearchCity>
       </MainInput>
@@ -52,14 +52,14 @@ const Start = props => {
             ? filteredCities.map((city, i) => (
                 <City
                   isStartComponent={true}
-                  i={i}
-                  city={city}
                   cities={cities}
-                  linkTo={`/weather/${cities[city]}`}
+                  city={city}
                   favorites={favorites}
-                  addToFavorites={addToFavorites}
+                  i={i}
+                  linkTo={`/weather/${cities[city]}`}
                   src={checkIn(favorites, String(city)) ? blackStar : redStar}
-                  altImg="star"
+                  altImg={'star'}
+                  addToFavorites={addToFavorites}
                 />
               ))
             : null}
@@ -68,4 +68,5 @@ const Start = props => {
     </MainComponent>
   )
 }
+
 export default Start

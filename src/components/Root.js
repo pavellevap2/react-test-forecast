@@ -1,11 +1,12 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import StartContainer from '../../containers/StartContainer'
-import FavoritesContainer from '../../containers/FavoritesContainer'
-import ForecastContainer from '../../containers/ForecastContainer'
-import Header from '../Header'
+import StartContainer from '../containers/StartContainer'
+import FavoritesContainer from '../containers/FavoritesContainer'
+import ForecastContainer from '../containers/ForecastContainer'
+import Header from './Header'
 import { BrowserRouter } from 'react-router-dom'
 import { injectGlobal } from 'styled-components'
+
 injectGlobal`
   body{
     padding: 0;

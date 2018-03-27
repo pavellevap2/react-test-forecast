@@ -1,4 +1,4 @@
-import Favorites from '../components/Favorites/Favorites'
+import Favorites from '../components/Favorites'
 import { connect } from 'react-redux'
 import { removeFromFavorites, inputFavoriteCity } from '../actions/actions'
 import {

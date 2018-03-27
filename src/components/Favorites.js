@@ -1,12 +1,12 @@
 import React from 'react'
-import del from '../../assets/images/delete.png'
+import del from '../assets/images/delete.png'
 import {
   CitiesComponent,
   MainInput,
   InputCityName,
   MainComponent,
-} from '../Commons/Commons'
-import City from '../City/Сity'
+} from './Commons'
+import City from './Сity'
 
 const Favorites = props => {
   const {
