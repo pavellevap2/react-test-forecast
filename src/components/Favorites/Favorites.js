@@ -1,6 +1,12 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import del from '../../assets/images/delete.png'
+import {
+  CitiesComponent,
+  MainInput,
+  InputCityName,
+  MainComponent,
+} from '../Commons/Commons'
+import City from '../City/Сity'
 
 const Favorites = props => {
   const {
@@ -12,36 +18,32 @@ const Favorites = props => {
   } = props
 
   return (
-    <div>
-      <div className="main">
-        <div className="main-input">
-          <input
-            type="text"
-            onChange={e => inputFavorite(e.target.value)}
-            value={favoriteCity}
-            placeholder="Search favorite cities"
-          />
-        </div>
-        <div className="cities">
-          <ul>
-            {filteredFavorites.map((city, i) => (
-              <li key={i}>
-                <span>
-                  <Link to={`/weather/${favorites[city]}`}>{city}</Link>
-                </span>
-
-                <button
-                  onClick={() => removeFromFavorites(city)}
-                  className="btn-star"
-                >
-                  <img className="btn-star-img" src={del} alt="star" />
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
+    <MainComponent>
+      <MainInput>
+        <InputCityName
+          type="text"
+          onChange={e => inputFavorite(e.target.value)}
+          value={favoriteCity}
+          placeholder="Search favorite cities"
+        />
+      </MainInput>
+      <CitiesComponent>
+        <ul>
+          {filteredFavorites.map((city, i) => (
+            <City
+              isStartComponent={false}
+              i={i}
+              favorites={favorites}
+              linkTo={`/weather/${favorites[city]}`}
+              city={city}
+              removeFromFavorites={removeFromFavorites}
+              src={del}
+              alt={'del'}
+            />
+          ))}
+        </ul>
+      </CitiesComponent>
+    </MainComponent>
   )
 }
 export default Favorites

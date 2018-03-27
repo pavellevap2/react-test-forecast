@@ -4,8 +4,22 @@ import StartContainer from '../../containers/StartContainer'
 import FavoritesContainer from '../../containers/FavoritesContainer'
 import ForecastContainer from '../../containers/ForecastContainer'
 import Header from '../Header'
-import './Root.css'
 import { BrowserRouter } from 'react-router-dom'
+import { injectGlobal } from 'styled-components'
+injectGlobal`
+  body{
+    padding: 0;
+    margin: 0;
+  }
+  
+  li{
+    list-style: none;
+  }
+  
+  a{
+    text-decoration: none;
+  }
+`
 
 class Root extends React.Component {
   constructor(props) {

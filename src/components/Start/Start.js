@@ -1,10 +1,19 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import searchImg from '../../assets/images/zoom.ico'
+import * as R from 'ramda'
+import City from '../City/Сity'
+import { checkIn } from '../../helpers/helpers'
 import blackStar from '../../assets/images/blackStar.png'
 import redStar from '../../assets/images/redStar.png'
-import * as R from 'ramda'
-import { checkIn } from '../../helpers/helpers'
+
+import {
+  MainInput,
+  MainComponent,
+  CitiesComponent,
+  InputCityName,
+  ImgSearch,
+  ButtonSearchCity,
+} from '../Commons/Commons'
 
 const Start = props => {
   const {
@@ -24,46 +33,39 @@ const Start = props => {
   const favorites = R.keys(props.favorites)
 
   return (
-    <div className="main">
-      <div className="main-input">
-        <input
+    <MainComponent>
+      <MainInput>
+        <InputCityName
           type="text"
           placeholder="Enter a сity"
           onChange={e => inputCity(e.target.value)}
           value={cityName}
         />
 
-        <button className="btn_search" onClick={() => searchCities()}>
-          <img src={searchImg} alt="search" />
-        </button>
-      </div>
-      <div className="cities">
+        <ButtonSearchCity onClick={() => searchCities()}>
+          <ImgSearch src={searchImg} alt="search" />
+        </ButtonSearchCity>
+      </MainInput>
+      <CitiesComponent>
         <ul>
           {cityName.length
             ? filteredCities.map((city, i) => (
-                <li key={i}>
-                  <span>
-                    <Link to={`/weather/${cities[city]}`}>{city}</Link>
-                  </span>
-                  <button
-                    onClick={() => addToFavorites(city, cities[city])}
-                    className="btn-star"
-                  >
-                    <img
-                      className="btn-star-img"
-                      src={
-                        checkIn(favorites, String(city)) ? blackStar : redStar
-                      }
-                      alt="star"
-                    />
-                  </button>
-                </li>
+                <City
+                  isStartComponent={true}
+                  i={i}
+                  city={city}
+                  cities={cities}
+                  linkTo={`/weather/${cities[city]}`}
+                  favorites={favorites}
+                  addToFavorites={addToFavorites}
+                  src={checkIn(favorites, String(city)) ? blackStar : redStar}
+                  altImg="star"
+                />
               ))
             : null}
         </ul>
-      </div>
-    </div>
+      </CitiesComponent>
+    </MainComponent>
   )
 }
-
 export default Start
